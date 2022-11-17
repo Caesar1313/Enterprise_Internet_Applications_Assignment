@@ -2,6 +2,7 @@ package com.example.enterprise_internet_applications_project.models;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "my_group")
@@ -12,6 +13,9 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "group")
+   private List<PersonGroup> personGroups;
 
     public Group() {
     }

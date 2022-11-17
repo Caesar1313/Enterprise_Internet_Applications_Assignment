@@ -2,9 +2,10 @@ package com.example.enterprise_internet_applications_project.models;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "person")
 public class Person {
 
 
@@ -12,6 +13,11 @@ public class Person {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @OneToMany(mappedBy = "person")
+    private List<PersonGroup> personGroups;
+
+
 
     public Person() {
     }
