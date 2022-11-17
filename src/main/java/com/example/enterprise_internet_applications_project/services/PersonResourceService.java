@@ -1,8 +1,8 @@
-package com.example.enterprise_internet_applications_project.person.services;
+package com.example.enterprise_internet_applications_project.services;
 
 
-import com.example.enterprise_internet_applications_project.person.models.Person;
-import com.example.enterprise_internet_applications_project.person.repositories.PersonRepository;
+import com.example.enterprise_internet_applications_project.models.Person;
+import com.example.enterprise_internet_applications_project.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

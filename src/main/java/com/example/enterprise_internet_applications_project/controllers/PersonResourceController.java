@@ -1,8 +1,8 @@
-package com.example.enterprise_internet_applications_project.person.controllers;
+package com.example.enterprise_internet_applications_project.controllers;
 
 
-import com.example.enterprise_internet_applications_project.person.models.Person;
-import com.example.enterprise_internet_applications_project.person.services.PersonResourceService;
+import com.example.enterprise_internet_applications_project.services.PersonResourceService;
+import com.example.enterprise_internet_applications_project.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

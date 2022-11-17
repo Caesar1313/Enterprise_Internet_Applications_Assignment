@@ -1,37 +1,30 @@
-package com.example.enterprise_internet_applications_project.person.models;
+package com.example.enterprise_internet_applications_project.models;
 
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
-public class Person {
+@Table(name = "my_group")
+public class Group {
 
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    public Person() {
+    public Group() {
     }
 
-    public Person(Long id, String name) {
+    public Group(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Person(String name) {
+    public Group(String name) {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -41,9 +34,10 @@ public class Person {
         this.name = name;
     }
 
+
     @Override
     public String toString() {
-        return "Person{" +
+        return "Group{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

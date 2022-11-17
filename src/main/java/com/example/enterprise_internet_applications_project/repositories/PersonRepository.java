@@ -1,6 +1,6 @@
-package com.example.enterprise_internet_applications_project.person.repositories;
+package com.example.enterprise_internet_applications_project.repositories;
 
-import com.example.enterprise_internet_applications_project.person.models.Person;
+import com.example.enterprise_internet_applications_project.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

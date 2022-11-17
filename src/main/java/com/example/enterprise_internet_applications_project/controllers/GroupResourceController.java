@@ -1,6 +1,8 @@
-package com.example.enterprise_internet_applications_project.group;
+package com.example.enterprise_internet_applications_project.controllers;
 
 
+import com.example.enterprise_internet_applications_project.services.GroupResourceService;
+import com.example.enterprise_internet_applications_project.models.Group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

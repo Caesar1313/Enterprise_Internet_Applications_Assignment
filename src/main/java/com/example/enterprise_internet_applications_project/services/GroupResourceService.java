@@ -1,6 +1,8 @@
-package com.example.enterprise_internet_applications_project.group;
+package com.example.enterprise_internet_applications_project.services;
 
 
+import com.example.enterprise_internet_applications_project.models.Group;
+import com.example.enterprise_internet_applications_project.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
