@@ -1,31 +1,35 @@
 package com.example.enterprise_internet_applications_project.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "files")
 public class MyFile {
-    private String fileName;
-    //private String downloadUri;
-    private long size;
 
-    public String getFileName() {
-        return fileName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String name;
+
+    public MyFile() {
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public MyFile(String name){
+        this.name = name;
     }
 
-//    public String getDownloadUri() {
-//        return downloadUri;
-//    }
-//
-//    public void setDownloadUri(String downloadUri) {
-//        this.downloadUri = downloadUri;
-//    }
-
-    public long getSize() {
-        return size;
+    public int getId() {
+        return id;
     }
 
-    public void setSize(long size) {
-        this.size = size;
+
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

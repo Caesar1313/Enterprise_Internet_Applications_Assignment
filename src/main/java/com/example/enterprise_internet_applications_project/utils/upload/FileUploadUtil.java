@@ -1,4 +1,4 @@
-package com.example.enterprise_internet_applications_project.repos.upload;
+package com.example.enterprise_internet_applications_project.utils.upload;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,8 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
-
-    public static void saveFile(String fileName, MultipartFile multipartFile) throws IOException {
+    public static void saveFile(String fileName, MultipartFile multipartFile) throws IOException{
         Path uploadDirectory = Paths.get("Uploaded-Files");
 
         try(InputStream inputStream = multipartFile.getInputStream()){
