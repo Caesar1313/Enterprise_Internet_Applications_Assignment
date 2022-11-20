@@ -17,4 +17,29 @@ public class FileGroup {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "file_id",nullable = false,referencedColumnName = "id")
     private MyFile file;
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public MyFile getFile() {
+        return file;
+    }
+
+    public void setFile(MyFile file) {
+        this.file = file;
+    }
+
+    @Override
+    public String toString() {
+        return "FileGroup{" +
+                "id=" + id +
+                ", group=" + group +
+                ", file=" + file +
+                '}';
+    }
 }
