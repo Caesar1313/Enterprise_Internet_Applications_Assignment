@@ -5,39 +5,33 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "person")
-public class Person {
+@Table(name = "my_group")
+public class Group {
 
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "person")
-    private List<PersonGroup> personGroups;
+    @OneToMany(mappedBy = "group")
+   private List<PersonGroup> personGroups;
 
+    @OneToMany(mappedBy = "group")
+    private List<FileGroup> fileGroups;
 
-
-    public Person() {
+    public Group() {
     }
 
-    public Person(Long id, String name) {
+    public Group(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Person(String name) {
+    public Group(String name) {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -47,9 +41,10 @@ public class Person {
         this.name = name;
     }
 
+
     @Override
     public String toString() {
-        return "Person{" +
+        return "Group{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

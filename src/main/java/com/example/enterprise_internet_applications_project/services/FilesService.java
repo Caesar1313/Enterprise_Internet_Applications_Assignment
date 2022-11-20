@@ -1,10 +1,9 @@
 package com.example.enterprise_internet_applications_project.services;
 
 import java.io.IOException;
-import java.util.stream.Stream;
 
 import com.example.enterprise_internet_applications_project.models.MyFile;
-import com.example.enterprise_internet_applications_project.repos.FilesRepository;
+import com.example.enterprise_internet_applications_project.repositories.FilesRepository;
 import com.example.enterprise_internet_applications_project.utils.upload.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
