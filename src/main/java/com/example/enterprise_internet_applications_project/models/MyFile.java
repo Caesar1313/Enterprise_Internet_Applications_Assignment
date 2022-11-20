@@ -8,7 +8,7 @@ public class MyFile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String name;
 
@@ -19,7 +19,7 @@ public class MyFile {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

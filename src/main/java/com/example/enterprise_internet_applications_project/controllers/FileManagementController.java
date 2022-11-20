@@ -17,7 +17,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping
-public class AppController {
+public class FileManagementController {
 
     @Autowired
     private FilesService storageService;
