@@ -13,13 +13,14 @@ public class FileDownloadUtil {
 
     public Resource getFileAsResource(String fileName) throws IOException {
         Path uploadDirectory = Paths.get("Uploaded-Files");
+
         Files.list(uploadDirectory).forEach(file -> {
-            if (file.getFileName().toString().equals(fileName)) {
+            if(file.getFileName().toString().equals(fileName)){
                 fileToDownload = file;
             }
         });
 
-        if (fileToDownload != null) {
+        if(fileToDownload != null){
             return new UrlResource(fileToDownload.toUri());
         }
 

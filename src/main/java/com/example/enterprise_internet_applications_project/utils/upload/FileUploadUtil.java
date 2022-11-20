@@ -10,13 +10,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class FileUploadUtil {
-    public static void saveFile(String fileName, MultipartFile multipartFile) throws IOException {
+    public static void saveFile(String fileName, MultipartFile multipartFile) throws IOException{
         Path uploadDirectory = Paths.get("Uploaded-Files");
-        try (InputStream inputStream = multipartFile.getInputStream()) {
+
+        try(InputStream inputStream = multipartFile.getInputStream()){
             Path filePath = uploadDirectory.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception exception) {
-            exception.getCause();
+        } catch (IOException exception){
             throw new IOException("Error saving uploaded file: " + fileName, exception);
         }
     }
