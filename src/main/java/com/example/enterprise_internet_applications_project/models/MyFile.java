@@ -1,6 +1,7 @@
 package com.example.enterprise_internet_applications_project.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "files")
@@ -9,6 +10,9 @@ public class MyFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @OneToMany(mappedBy = "file")
+    private List<FileGroup> fileGroups;
 
     private String name;
 

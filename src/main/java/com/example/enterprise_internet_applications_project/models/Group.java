@@ -17,6 +17,9 @@ public class Group {
     @OneToMany(mappedBy = "group")
    private List<PersonGroup> personGroups;
 
+    @OneToMany(mappedBy = "group")
+    private List<FileGroup> fileGroups;
+
     public Group() {
     }
 
