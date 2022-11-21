@@ -32,7 +32,6 @@ public class FileManagementController {
 
     @PostMapping("/uploadFile")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        //System.out.println(file.getName());
         String message;
         try {
             storageService.upload(file);
