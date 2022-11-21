@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/person")
-public class PersonResourceController {
+public class PersonResourceController{
 
     private final PersonResourceService personResourceService;
 
