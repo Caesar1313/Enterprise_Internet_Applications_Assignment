@@ -3,7 +3,7 @@ package com.example.enterprise_internet_applications_project.models;
 
 import javax.persistence.*;
 
-@Entity(name = "fileGroup")
+@Entity
 @Table(name ="file_group")
 public class FileGroup {
     @Id

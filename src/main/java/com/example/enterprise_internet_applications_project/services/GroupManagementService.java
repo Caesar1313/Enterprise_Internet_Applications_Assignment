@@ -7,7 +7,6 @@ import com.example.enterprise_internet_applications_project.models.PersonGroup;
 import com.example.enterprise_internet_applications_project.repositories.GroupRepository;
 import com.example.enterprise_internet_applications_project.repositories.PersonGroupRepository;
 import com.example.enterprise_internet_applications_project.repositories.PersonRepository;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

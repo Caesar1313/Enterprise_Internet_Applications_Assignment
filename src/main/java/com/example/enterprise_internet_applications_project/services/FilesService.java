@@ -23,7 +23,9 @@ public class FilesService {
         filesRepository.save(fileDB);
     }
 
-    public MyFile getFile(int id) {
+    public MyFile getFile(Long id) {
         return filesRepository.findById(id).get();
     }
+
+
 }
