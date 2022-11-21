@@ -13,6 +13,7 @@ public class Person {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String password;
 
     @OneToMany(mappedBy = "person")
     private List<PersonGroup> personGroups;
@@ -47,11 +48,21 @@ public class Person {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", personGroups=" + personGroups +
                 '}';
     }
 }
