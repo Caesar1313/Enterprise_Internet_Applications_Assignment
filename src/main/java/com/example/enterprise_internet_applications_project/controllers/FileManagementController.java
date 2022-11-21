@@ -22,11 +22,11 @@ public class FileManagementController {
     @Autowired
     private FilesService storageService;
 
-    @PostMapping("/uploadFile")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/uploadFile/owner/{id}")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("id") long ownerId) {
         String message;
         try {
-            storageService.upload(file);
+            storageService.upload(file, ownerId);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {

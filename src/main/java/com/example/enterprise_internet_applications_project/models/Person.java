@@ -18,6 +18,8 @@ public class Person {
     @OneToMany(mappedBy = "person")
     private List<PersonGroup> personGroups;
 
+    @OneToMany(mappedBy = "owner")
+    private List<MyFile> files;
 
 
     public Person() {
