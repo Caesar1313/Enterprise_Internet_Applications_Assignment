@@ -16,6 +16,10 @@ public class MyFile {
 
     private String name;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
+    private Person owner;
+
     public MyFile() {
     }
 
@@ -27,6 +31,9 @@ public class MyFile {
         return id;
     }
 
+    public void setOwner(Person owner){
+        this.owner = owner;
+    }
 
     public String getName() {
         return name;
