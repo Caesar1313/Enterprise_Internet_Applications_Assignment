@@ -4,23 +4,23 @@ import com.example.enterprise_internet_applications_project.models.MyFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface FilesRepository extends JpaRepository<MyFile, Integer> {
 
-    @Query(value = "SELECT f FROM MyFile as f WHERE f.name = ?1")
+    @Query(value = "SELECT f FROM MyFile AS f WHERE f.name = ?1")
     MyFile findByName(String nameFile);
 
-    @Query(value = "SELECT f.isCheckIn FROM MyFile as f WHERE f.name = ?1")
-    Optional<Boolean> checkStatusFile(String nameFile);
+    @Query(value = "SELECT f.isCheckIn FROM MyFile AS f WHERE f.name = ?1")
+    boolean statusFile(String nameFile);
+
+    @Query(value = "UPDATE MyFile AS f SET f.isCheckIn = ?1 WHERE f.name = ?2")
+    void changeStatusFile(boolean status, String nameFile);
 
     @Modifying
     @Query("DELETE FROM MyFile f WHERE f.name = ?1")
-    ResponseEntity<?> deleteFileByName(String nameFile);
+    void deleteFileByName(String nameFile);
 
 
 }

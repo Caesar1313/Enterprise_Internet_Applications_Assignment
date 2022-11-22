@@ -12,7 +12,7 @@ public class MyFile {
     // -- attribute -- //
     private int id;
     private String name;
-    private boolean isCheckIn;
+    private boolean isCheckIn = false;
 
     // -- constructor -- //
     public MyFile() {
@@ -20,6 +20,7 @@ public class MyFile {
 
     public MyFile(String name) {
         this.name = name;
+        this.isCheckIn = false;
 
     }
 
