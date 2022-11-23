@@ -47,6 +47,8 @@ public class Group {
         return "Group{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", personGroups=" + personGroups +
+                ", fileGroups=" + fileGroups +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
 import com.example.enterprise_internet_applications_project.models.MyFile;
+import com.example.enterprise_internet_applications_project.services.FileGroupService;
 import com.example.enterprise_internet_applications_project.utils.download.FileDownloadUtil;
 import com.example.enterprise_internet_applications_project.services.FilesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,18 @@ import java.io.IOException;
 
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/file")
 public class FileManagementController {
 
+
+    private final FilesService storageService;
+    private final FileGroupService fileGroupService;
+
     @Autowired
-    private FilesService storageService;
+    public FileManagementController(FilesService storageService, FileGroupService fileGroupService) {
+        this.storageService = storageService;
+        this.fileGroupService = fileGroupService;
+    }
 
     @PostMapping("/uploadFile/owner/{id}")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("id") long ownerId) {
@@ -37,7 +45,7 @@ public class FileManagementController {
 
 
     @GetMapping("/downloadFile/{id}")
-    public ResponseEntity<?> downloadFile(@PathVariable("id") int id){
+    public ResponseEntity<?> downloadFile(@PathVariable("id") Long id){
         MyFile fileDB = storageService.getFile(id);
         FileDownloadUtil downloadUtil = new FileDownloadUtil();
 
@@ -55,5 +63,16 @@ public class FileManagementController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
                 .body(resource);
+    }
+
+
+    @PostMapping("/group")
+    public void addFileToGroup(@RequestParam("file_id") Long fileId,@RequestParam("group_id") Long groupId){
+        fileGroupService.addFileToGroup(fileId, groupId);
+    }
+
+    @DeleteMapping("/group")
+    public void removeFileFromGroup(@RequestParam("file_id") Long fileId,@RequestParam("group_id") Long groupId){
+        fileGroupService.removeFileFromGroup(fileId, groupId);
     }
 }

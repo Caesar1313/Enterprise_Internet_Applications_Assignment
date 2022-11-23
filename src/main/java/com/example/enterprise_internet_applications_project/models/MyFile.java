@@ -43,4 +43,13 @@ public class MyFile {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "MyFile{" +
+                "id=" + id +
+                ", fileGroups=" + fileGroups +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                '}';
+    }
 }
