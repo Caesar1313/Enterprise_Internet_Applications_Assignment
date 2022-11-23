@@ -29,6 +29,7 @@ public class FileGroupService {
         Group group = groupRepository.findById(groupId).get();
         MyFile file = filesRepository.findById(fileId).get();
         FileGroup fileGroup = new FileGroup();
+
         fileGroup.setGroup(group);
         fileGroup.setFile(file);
         fileGroupRepository.save(fileGroup);
