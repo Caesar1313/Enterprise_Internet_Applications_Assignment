@@ -18,9 +18,14 @@ public interface FilesRepository extends JpaRepository<MyFile, Integer> {
     @Query(value = "UPDATE MyFile AS f SET f.isCheckIn = ?1 WHERE f.name = ?2")
     void changeStatusFile(boolean status, String nameFile);
 
+    @Query(value = "SELECT f.id FROM MyFile AS f WHERE f.name = ?1")
+    Long getIdFile(String nameFile);
+
     @Modifying
     @Query("DELETE FROM MyFile f WHERE f.name = ?1")
     void deleteFileByName(String nameFile);
+
+
 
 
 }

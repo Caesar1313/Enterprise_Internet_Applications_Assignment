@@ -15,11 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-
 @RestController
 @RequestMapping
-public class AppController {
-
+public class FileController {
     @Autowired
     private FilesService storageService;
 
@@ -70,9 +68,34 @@ public class AppController {
                 .body(resource);
     }
 
+    @GetMapping("/allFiles")
+    public List<MyFile> getFiles() {
+        return storageService.getFiles();
+    }
 
+    @GetMapping("/findByName")
+    public MyFile findByName(@RequestParam("nameFile") String nameFile) {
+        return storageService.findByName(nameFile);
+    }
 
+    @GetMapping("/statusFile")
+    public boolean statusFile(@RequestParam("nameFile") String nameFile) {
+        return storageService.statusFile(nameFile);
+    }
 
+    @GetMapping("/changeStatusFile")
+    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) {
+        storageService.changeStatusFile(status, nameFile);
+    }
 
+    @DeleteMapping("/deleteFile")
+    public ResponseEntity<?> deleteFileByName(@RequestParam("nameFile") String nameFile) {
+        return storageService.deleteFileByName(nameFile);
+    }
+
+    @PostMapping("getIdFile")
+    public Long getIdFile(@RequestParam("nameFile") String nameFile){
+        return storageService.getIdFile(nameFile);
+    }
 
 }

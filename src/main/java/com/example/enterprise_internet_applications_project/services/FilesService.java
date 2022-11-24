@@ -38,8 +38,8 @@ public class FilesService {
         }
     }
 
-    void changeStatusFile(boolean status, String nameFile) {
-        filesRepository.changeStatusFile(status, nameFile);
+    public void changeStatusFile(boolean status, String nameFile) {
+         filesRepository.changeStatusFile(status, nameFile);
     }
 
     public MyFile getFile(int id) {
@@ -58,9 +58,8 @@ public class FilesService {
         boolean statusFile = filesRepository.statusFile(nameFile);
 
         if (!statusFile) {
-            int id = filesRepository.findByName(nameFile).getId();
-            System.out.println(id);
-            filesRepository.deleteById(id);
+            Long id = filesRepository.getIdFile(nameFile);
+            filesRepository.deleteById(Math.toIntExact(id));
             return ResponseEntity.ok(HttpStatus.OK);
         }
         throw new IllegalStateException("Files is Check in by anothor user");
@@ -68,6 +67,10 @@ public class FilesService {
 
     public MyFile findByName(String nameFile) {
         return filesRepository.findByName(nameFile);
+    }
+
+    public Long getIdFile(String nameFile){
+        return filesRepository.getIdFile(nameFile);
     }
 
 }
