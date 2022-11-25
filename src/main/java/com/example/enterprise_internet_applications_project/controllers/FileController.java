@@ -11,13 +11,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping
 public class FileController {
+
+    //*                 Status File             *//
+    //          is true (File is check in )
+    //          is false (File is check out) (Available)
+
     @Autowired
     private FilesService storageService;
 
@@ -93,9 +97,14 @@ public class FileController {
         return storageService.deleteFileByName(nameFile);
     }
 
-    @PostMapping("getIdFile")
+    @PostMapping("/getIdFile")
     public Long getIdFile(@RequestParam("nameFile") String nameFile){
         return storageService.getIdFile(nameFile);
+    }
+
+    @PostMapping("/bulk-check-in")
+    public void  bulkCheckIn(@RequestParam("nameFiles") List<String>nameFiles){
+        storageService.bulkCheckIn(nameFiles);
     }
 
 }

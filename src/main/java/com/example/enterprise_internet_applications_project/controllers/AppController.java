@@ -20,55 +20,55 @@ import java.util.List;
 @RequestMapping
 public class AppController {
 
-    @Autowired
-    private FilesService storageService;
-
-    @PostMapping("/storeFileOnServer")
-    public ResponseEntity<String> storeFileOnServer(@RequestParam("file") MultipartFile file) {
-        String message;
-        try {
-            storageService.storeFileOnServer(file);
-            message = "Store the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(message);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            message = "Could not Store the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-        }
-    }
-
-    @PostMapping("/uploadFile")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, boolean status) {
-        String message;
-        try {
-            storageService.upload(file, false);
-            message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(message);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-        }
-    }
-
-    @GetMapping("/downloadFile/{id}")
-    public ResponseEntity<?> downloadFile(@PathVariable("id") int id) {
-        MyFile fileDB = storageService.getFile(id);
-        FileDownloadUtil downloadUtil = new FileDownloadUtil();
-        Resource resource = null;
-        try {
-            resource = downloadUtil.getFileAsResource(fileDB.getName());
-        } catch (IOException exception) {
-            return ResponseEntity.internalServerError().build();
-        }
-
-        String contentType = "application/octet-stream";
-        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                .body(resource);
-    }
+//    @Autowired
+//    private FilesService storageService;
+//
+//    @PostMapping("/storeFileOnServer")
+//    public ResponseEntity<String> storeFileOnServer(@RequestParam("file") MultipartFile file) {
+//        String message;
+//        try {
+//            storageService.storeFileOnServer(file);
+//            message = "Store the file successfully: " + file.getOriginalFilename();
+//            return ResponseEntity.status(HttpStatus.OK).body(message);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            message = "Could not Store the file: " + file.getOriginalFilename() + "!";
+//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+//        }
+//    }
+//
+//    @PostMapping("/uploadFile")
+//    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, boolean status) {
+//        String message;
+//        try {
+//            storageService.upload(file, false);
+//            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+//            return ResponseEntity.status(HttpStatus.OK).body(message);
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+//            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+//        }
+//    }
+//
+//    @GetMapping("/downloadFile/{id}")
+//    public ResponseEntity<?> downloadFile(@PathVariable("id") int id) {
+//        MyFile fileDB = storageService.getFile(id);
+//        FileDownloadUtil downloadUtil = new FileDownloadUtil();
+//        Resource resource = null;
+//        try {
+//            resource = downloadUtil.getFileAsResource(fileDB.getName());
+//        } catch (IOException exception) {
+//            return ResponseEntity.internalServerError().build();
+//        }
+//
+//        String contentType = "application/octet-stream";
+//        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+//                .body(resource);
+//    }
 
 
 

@@ -39,7 +39,7 @@ public class FilesService {
     }
 
     public void changeStatusFile(boolean status, String nameFile) {
-         filesRepository.changeStatusFile(status, nameFile);
+        filesRepository.changeStatusFile(status, nameFile);
     }
 
     public MyFile getFile(int id) {
@@ -69,8 +69,24 @@ public class FilesService {
         return filesRepository.findByName(nameFile);
     }
 
-    public Long getIdFile(String nameFile){
+    public Long getIdFile(String nameFile) {
         return filesRepository.getIdFile(nameFile);
     }
 
+    public void bulkCheckIn(List<String> nameFiles) {
+        boolean allFileAvailable = true;
+        for (String nameFile : nameFiles
+        ) {
+            if (statusFile(nameFile)) {
+                allFileAvailable = false;
+                break;
+            }
+        }
+        if (allFileAvailable) {
+            for (String nameFile : nameFiles
+            ) {
+                changeStatusFile(true, nameFile);
+            }
+        }
+    }
 }
