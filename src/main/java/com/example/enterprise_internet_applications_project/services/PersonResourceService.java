@@ -12,12 +12,8 @@ import java.util.Optional;
 @Service
 public class PersonResourceService {
 
-    private final PersonRepository personRepository;
-
     @Autowired
-    public PersonResourceService(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
+    private PersonRepository personRepository;
 
 
     public void create(Person person){

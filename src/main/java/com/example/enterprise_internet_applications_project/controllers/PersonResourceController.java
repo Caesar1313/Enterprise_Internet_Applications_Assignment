@@ -17,12 +17,8 @@ public class PersonResourceController {
 
     Logger logger = LoggerFactory.getLogger(PersonResourceController.class);
 
-    private final PersonResourceService personResourceService;
-
     @Autowired
-    public PersonResourceController(PersonResourceService personResourceService) {
-        this.personResourceService = personResourceService;
-    }
+    private PersonResourceService personResourceService;
 
 
     @PostMapping
