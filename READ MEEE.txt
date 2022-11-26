@@ -1,0 +1,10 @@
+When merging, don't forget to check:
+	- properties file.
+	- "Uploaded-Files" directory destination.
+
+
+
+
+
+
+			Thank You.
