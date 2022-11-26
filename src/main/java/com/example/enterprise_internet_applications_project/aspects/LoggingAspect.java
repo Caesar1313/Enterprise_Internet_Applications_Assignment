@@ -1,6 +1,7 @@
-package com.example.enterprise_internet_applications_project.aspect;
+package com.example.enterprise_internet_applications_project.aspects;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ public class LoggingAspect {
     Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     @Around("execution(* com.example.enterprise_internet_applications_project.services..*(..))")
-    public void forServiceLog(JoinPoint joinPoint) {
+    public void forServiceLog(ProceedingJoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().toShortString();
         Object[] args = joinPoint.getArgs();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -28,5 +29,10 @@ public class LoggingAspect {
         else
             logger.info("{} invoke {}", userName, methodName);
 
+        try {
+            joinPoint.proceed();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 }
