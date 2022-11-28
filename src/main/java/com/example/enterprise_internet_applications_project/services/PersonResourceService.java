@@ -6,19 +6,17 @@ import com.example.enterprise_internet_applications_project.repositories.PersonR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PersonResourceService {
 
-    private final PersonRepository personRepository;
-
     @Autowired
-    public PersonResourceService(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
+    private  PersonRepository personRepository;
+
+
+
 
 
     public void create(Person person){
