@@ -47,12 +47,14 @@ public class FileManagementController {
     @GetMapping("/downloadFile/{id}")
     public ResponseEntity<?> downloadFile(@PathVariable("id") Long id){
         MyFile fileDB = storageService.getFile(id);
+        System.out.println(fileDB);
         FileDownloadUtil downloadUtil = new FileDownloadUtil();
 
         Resource resource = null;
 
         try {
             resource = downloadUtil.getFileAsResource(fileDB.getName());
+            System.out.println(resource);
         } catch (IOException exception){
             return ResponseEntity.internalServerError().build();
         }
