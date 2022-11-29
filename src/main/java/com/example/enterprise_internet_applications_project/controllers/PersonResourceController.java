@@ -13,12 +13,8 @@ import java.util.Optional;
 @RequestMapping(path = "api/person")
 public class PersonResourceController{
 
-    private final PersonResourceService personResourceService;
-
     @Autowired
-    public PersonResourceController(PersonResourceService personResourceService) {
-        this.personResourceService = personResourceService;
-    }
+    private PersonResourceService personResourceService;
 
 
     @PostMapping
