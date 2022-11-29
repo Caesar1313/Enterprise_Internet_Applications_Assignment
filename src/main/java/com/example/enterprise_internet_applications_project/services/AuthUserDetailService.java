@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class JWTUserDetailService implements UserDetailsService {
+public class AuthUserDetailService implements UserDetailsService {
 
 
     /**
-     * this method used with the other  jwt security config
+     * this method used with the other jwt security config
      *
      */
 //    @Override
