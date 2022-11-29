@@ -1,5 +1,7 @@
 package com.example.enterprise_internet_applications_project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class MyFile {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
+    @JsonIgnoreProperties(value = "files", allowSetters = true)
     private Person owner;
 
     public MyFile() {

@@ -18,7 +18,7 @@ public class LoggingAspect {
     Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
     @Around("execution(* com.example.enterprise_internet_applications_project.services..*(..))")
-    public void forServiceLog(ProceedingJoinPoint joinPoint) {
+    public Object forServiceLog(ProceedingJoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().toShortString();
         Object[] args = joinPoint.getArgs();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -30,9 +30,10 @@ public class LoggingAspect {
             logger.info("{} invoke {}", userName, methodName);
 
         try {
-            joinPoint.proceed();
+            return joinPoint.proceed();
         } catch (Throwable e) {
             e.printStackTrace();
+            return e;
         }
     }
 }
