@@ -22,6 +22,10 @@ public class Person {
     private List<MyFile> files;
 
 
+    @OneToOne(mappedBy = "person")
+    Authorities authorities;
+
+
     public Person() {
     }
 
