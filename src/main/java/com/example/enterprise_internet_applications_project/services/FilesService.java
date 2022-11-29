@@ -29,7 +29,6 @@ public class FilesService {
     }
 
     public MyFile getFile(long id) {
-        //return filesRepository.findById(id).get();
-        return filesRepository.findFile(id);
+        return filesRepository.findById(id).get();
     }
 }
