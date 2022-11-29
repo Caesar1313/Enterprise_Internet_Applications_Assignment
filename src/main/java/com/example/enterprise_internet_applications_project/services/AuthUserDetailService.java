@@ -15,7 +15,6 @@ public class AuthUserDetailService implements UserDetailsService {
 
     /**
      * this method used with the other jwt security config
-     *
      */
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -26,7 +25,6 @@ public class AuthUserDetailService implements UserDetailsService {
    /*
    this method is for the jwt config security
     */
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if ("eyad".equals(username)) {
