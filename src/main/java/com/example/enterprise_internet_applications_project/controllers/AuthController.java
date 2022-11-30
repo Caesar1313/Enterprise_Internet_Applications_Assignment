@@ -25,6 +25,7 @@ public class AuthController {
     Logger logger = LoggerFactory.getLogger(AuthController.class);
 
 
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -40,16 +41,12 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> generateAuthenticationToken(@RequestBody JWTRequestModel authenticationRequest)
+    public ResponseEntity<?> generateAuthenticationToken(@RequestBody JWTRequestModel jwtRequestModel)
             throws Exception {
 
-        logger.debug(authenticationRequest.toString());
-
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
+        authenticate(jwtRequestModel.getUsername(), jwtRequestModel.getPassword());
         final UserDetails userDetails = jwtInMemoryUserDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
-
+                .loadUserByUsername(jwtRequestModel.getUsername());
         final String token = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new JWTResponseModel(token));
