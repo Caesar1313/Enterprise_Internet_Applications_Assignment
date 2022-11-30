@@ -1,6 +1,8 @@
 package com.example.enterprise_internet_applications_project.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,12 +16,12 @@ public class Person {
     private Long id;
 
     private String name;
-    private String password;
 
     @OneToMany(mappedBy = "person")
     private List<PersonGroup> personGroups;
 
     @OneToMany(mappedBy = "owner")
+    @JsonIgnoreProperties(value = "owner", allowSetters = true)
     private List<MyFile> files;
 
 
@@ -70,6 +72,8 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", personGroups=" + personGroups +
+                ", personGroups=" + personGroups +
+                ", files=" + files +
                 '}';
     }
 }
