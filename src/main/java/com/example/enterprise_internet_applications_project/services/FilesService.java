@@ -58,7 +58,7 @@ public class FilesService {
         boolean statusFile = filesRepository.statusFile(nameFile);
 
         if (!statusFile) {
-            Long id = filesRepository.getIdFile(nameFile);
+            int id = filesRepository.getIdFile(nameFile);
             filesRepository.deleteById(Math.toIntExact(id));
             return ResponseEntity.ok(HttpStatus.OK);
         }
@@ -69,24 +69,24 @@ public class FilesService {
         return filesRepository.findByName(nameFile);
     }
 
-    public Long getIdFile(String nameFile) {
+    public int getIdFile(String nameFile) {
         return filesRepository.getIdFile(nameFile);
     }
 
-    public void bulkCheckIn(List<String> nameFiles) {
-        boolean allFileAvailable = true;
-        for (String nameFile : nameFiles
-        ) {
-            if (statusFile(nameFile)) {
-                allFileAvailable = false;
-                break;
-            }
-        }
-        if (allFileAvailable) {
-            for (String nameFile : nameFiles
-            ) {
-                changeStatusFile(true, nameFile);
-            }
-        }
-    }
+//    public void bulkCheckIn(List<String> nameFiles) {
+//        boolean allFileAvailable = true;
+//        for (String nameFile : nameFiles
+//        ) {
+//            if (statusFile(nameFile)) {
+//                allFileAvailable = false;
+//                break;
+//            }
+//        }
+//        if (allFileAvailable) {
+//            for (String nameFile : nameFiles
+//            ) {
+//                changeStatusFile(true, nameFile);
+//            }
+//        }
+//    }
 }

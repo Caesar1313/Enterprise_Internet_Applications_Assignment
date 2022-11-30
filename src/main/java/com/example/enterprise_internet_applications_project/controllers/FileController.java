@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class FileController {
     }
 
     @PostMapping("/uploadFile")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, boolean status) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         String message;
         try {
             storageService.upload(file, false);
@@ -83,28 +84,67 @@ public class FileController {
     }
 
     @GetMapping("/statusFile")
-    public boolean statusFile(@RequestParam("nameFile") String nameFile) {
-        return storageService.statusFile(nameFile);
+    public boolean statusFile(@RequestParam("nameFile") String nameFile) throws Exception{
+        try{
+            return storageService.statusFile(nameFile);
+        }catch (Exception e){
+            throw new Exception("not find this file : " + nameFile);
+        }
     }
 
     @GetMapping("/changeStatusFile")
-    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) {
-        storageService.changeStatusFile(status, nameFile);
+    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) throws Exception {
+        try {
+            storageService.changeStatusFile(status, nameFile);
+        } catch (Exception e) {
+            throw new Exception("not find this file : " + nameFile);
+        }
     }
 
     @DeleteMapping("/deleteFile")
-    public ResponseEntity<?> deleteFileByName(@RequestParam("nameFile") String nameFile) {
-        return storageService.deleteFileByName(nameFile);
+    public ResponseEntity<?> deleteFileByName(@RequestParam("nameFile") String nameFile) throws Exception {
+        try {
+            return storageService.deleteFileByName(nameFile);
+        } catch (Exception e) {
+            throw new Exception("not find this file : " + nameFile);
+        }
     }
 
     @PostMapping("/getIdFile")
-    public Long getIdFile(@RequestParam("nameFile") String nameFile){
-        return storageService.getIdFile(nameFile);
+    public int getIdFile(@RequestParam("nameFile") String nameFile) throws Exception {
+        try {
+            return storageService.getIdFile(nameFile);
+        } catch (Exception e) {
+            throw new Exception("not find this file : " + nameFile);
+        }
     }
 
     @PostMapping("/bulk-check-in")
-    public void  bulkCheckIn(@RequestParam("nameFiles") List<String>nameFiles){
-        storageService.bulkCheckIn(nameFiles);
+    public void bulkCheckIn(@RequestParam("nameFiles") List<String> nameFiles) throws Exception {
+        for (String nameFile : nameFiles
+        ) {
+            checkInFile(nameFile);
+        }
+    }
+
+    @GetMapping("/check-in")
+    public void checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
+        int id;
+        try {
+            id = getIdFile(nameFile);
+            if (statusFile(nameFile)) {
+                throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
+            }
+            changeStatusFile(nameFile, true);
+            downloadFile(id);
+        } catch (Exception e) {
+            throw new Exception("not find file : " + nameFile);
+        }
+    }
+
+    @GetMapping("/check-out")
+    public void checkOutFile(@RequestParam("file") MultipartFile file) {
+        uploadFile(file);
     }
 
 }

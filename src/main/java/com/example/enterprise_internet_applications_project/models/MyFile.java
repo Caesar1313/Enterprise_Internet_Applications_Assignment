@@ -10,7 +10,7 @@ public class MyFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     // -- attribute -- //
-    private Long id;
+    private int id;
     private String name;
     private boolean isCheckIn = false;
 
@@ -34,11 +34,11 @@ public class MyFile {
     }
 
     // -- getter and setter -- //
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
