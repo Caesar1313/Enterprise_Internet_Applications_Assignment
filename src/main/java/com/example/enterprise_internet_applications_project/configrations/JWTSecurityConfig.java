@@ -51,11 +51,12 @@ public class JWTSecurityConfig {
 
     }
 
-
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/api/person/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

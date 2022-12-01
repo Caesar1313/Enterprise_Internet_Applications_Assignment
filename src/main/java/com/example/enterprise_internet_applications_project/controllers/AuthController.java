@@ -20,6 +20,7 @@ import java.util.Objects;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/api/auth")
 public class AuthController {
 
     Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -32,12 +33,12 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService jwtInMemoryUserDetailsService;
+    private UserDetailsService userDetailsService;
 
 
-    @GetMapping("/eyad")
-    public String getEyadName(){
-        return "EYAD";
+    @GetMapping("/security/test")
+    public String getSecurityMethodName(){
+        return "This api use JWT as security method " ;
     }
 
     @PostMapping("/authenticate")
@@ -45,7 +46,7 @@ public class AuthController {
             throws Exception {
 
         authenticate(jwtRequestModel.getUsername(), jwtRequestModel.getPassword());
-        final UserDetails userDetails = jwtInMemoryUserDetailsService
+        final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(jwtRequestModel.getUsername());
         final String token = jwtUtil.generateToken(userDetails);
 

@@ -17,6 +17,8 @@ public class Person {
 
     private String name;
 
+    private String password;
+
     @OneToMany(mappedBy = "person")
     private List<PersonGroup> personGroups;
 

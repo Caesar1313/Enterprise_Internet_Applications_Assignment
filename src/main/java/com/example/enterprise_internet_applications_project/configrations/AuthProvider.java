@@ -1,5 +1,7 @@
 package com.example.enterprise_internet_applications_project.configrations;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 
 @Component
 public class AuthProvider implements AuthenticationProvider {
+    Logger logger = LoggerFactory.getLogger(AuthProvider.class);
 
     @Override
     public Authentication authenticate(Authentication authentication)
@@ -18,8 +21,10 @@ public class AuthProvider implements AuthenticationProvider {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        System.out.println(name);
-        System.out.println(password);
+
+        logger.debug("username : "+ name);
+        logger.debug("password : "+ password);
+
 
         return new UsernamePasswordAuthenticationToken(
                 name, password, new ArrayList<>());
