@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -75,5 +76,84 @@ public class FileManagementController {
     @DeleteMapping("/group")
     public void removeFileFromGroup(@RequestParam("file_id") Long fileId,@RequestParam("group_id") Long groupId){
         fileGroupService.removeFileFromGroup(fileId, groupId);
+    }
+
+    @GetMapping("/allFiles")
+    public List<MyFile> getFiles() {
+        return storageService.getFiles();
+    }
+
+    @GetMapping("/findByName")
+    public MyFile findByName(@RequestParam("nameFile") String nameFile) {
+        return storageService.findByName(nameFile);
+    }
+
+    @GetMapping("/statusFile")
+    public boolean statusFile(@RequestParam("nameFile") String nameFile) throws Exception{
+        try{
+            return storageService.statusFile(nameFile);
+        }catch (Exception e){
+            throw new Exception("not find this file : " + nameFile);
+        }
+    }
+
+    @GetMapping("/changeStatusFile")
+    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) throws Exception {
+        try {
+            storageService.changeStatusFile(status, nameFile);
+        } catch (Exception e) {
+            throw new Exception("not find this file : " + nameFile);
+        }
+    }
+
+    @DeleteMapping("/deleteFile")
+    public ResponseEntity<?> deleteFileByName(@RequestParam("nameFile") String nameFile) throws Exception {
+        try {
+            return storageService.deleteFileByName(nameFile);
+        } catch (Exception e) {
+            throw new Exception("not find this file : " + nameFile);
+        }
+    }
+
+    @PostMapping("/getIdFile")
+    public Long getIdFile(@RequestParam("nameFile") String nameFile) throws Exception {
+        try {
+            return storageService.getIdFile(nameFile);
+        } catch (Exception e) {
+            throw new Exception("not find this file : " + nameFile);
+        }
+    }
+
+    @PostMapping("/bulk-check-in")
+    public void bulkCheckIn(@RequestParam("nameFiles") List<String> nameFiles) throws Exception {
+        for (String nameFile : nameFiles
+        ) {
+            checkInFile(nameFile);
+        }
+    }
+
+    @GetMapping("/check-in")
+    public void checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
+        Long id;
+        try {
+            id = getIdFile(nameFile);
+            if (statusFile(nameFile)) {
+                throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
+            }
+            changeStatusFile(nameFile, true);
+            downloadFile(id);
+        } catch (Exception e) {
+            throw new Exception("not find file : " + nameFile);
+        }
+    }
+
+    @GetMapping("/check-out")
+    public void checkOutFile(@RequestParam("file") MultipartFile file,@PathVariable("id") long ownerId) {
+        uploadFile(file,ownerId);
+        try{
+            changeStatusFile(file.getName(), false);
+        }catch (Exception e){
+            throw new IllegalStateException("\"can't change status file to check out\"");
+        }
     }
 }

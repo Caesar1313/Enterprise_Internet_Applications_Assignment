@@ -17,6 +17,7 @@ public class MyFile {
     private List<FileGroup> fileGroups;
 
     private String name;
+    private boolean status;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
@@ -28,6 +29,18 @@ public class MyFile {
 
     public MyFile(String name){
         this.name = name;
+    }
+    public MyFile(String name,boolean status){
+        this.name = name;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public long getId() {
@@ -52,6 +65,7 @@ public class MyFile {
                 "id=" + id +
                 ", fileGroups=" + fileGroups +
                 ", name='" + name + '\'' +
+                ", status='" + status + '\''+
                 ", owner=" + owner +
                 '}';
     }
