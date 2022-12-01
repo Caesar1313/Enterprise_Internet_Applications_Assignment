@@ -47,7 +47,6 @@ public class FileManagementController {
     @GetMapping("/downloadFile/{id}")
     public ResponseEntity<?> downloadFile(@PathVariable("id") Long id){
         MyFile fileDB = storageService.getFile(id);
-        System.out.println(fileDB);
         FileDownloadUtil downloadUtil = new FileDownloadUtil();
 
         Resource resource = null;
