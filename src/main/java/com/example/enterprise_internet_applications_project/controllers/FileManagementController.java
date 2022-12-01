@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -125,8 +126,8 @@ public class FileManagementController {
     }
 
     @PostMapping("/bulk-check-in")
-    public void bulkCheckIn(@RequestParam("nameFiles") List<String> nameFiles) throws Exception {
-        for (String nameFile : nameFiles
+    public void bulkCheckIn(@RequestParam("nameFiles") Map<String,List<String>> nameFiles) throws Exception {
+        for (String nameFile : nameFiles.get("nameFiles")
         ) {
             checkInFile(nameFile);
         }

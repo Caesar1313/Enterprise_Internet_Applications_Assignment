@@ -25,10 +25,14 @@ public class FilesService {
 
     public void upload(MultipartFile file, long ownerId) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        MyFile fileDB = new MyFile(fileName);
-        fileDB.setOwner(personRepository.findById(ownerId).get());
+        MyFile fileDB = new MyFile(fileName,false);
         FileUploadUtil.saveFile(fileName, file);
-        filesRepository.save(fileDB);
+        if (findByName(file.getName()) == null) {
+            fileDB.setOwner(personRepository.findById(ownerId).get());
+            filesRepository.save(fileDB);
+        } else {
+            changeStatusFile(false, file.getName());
+        }
     }
 
     public MyFile getFile(long id) {
