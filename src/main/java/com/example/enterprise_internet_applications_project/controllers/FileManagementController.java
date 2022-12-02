@@ -186,7 +186,7 @@ public class FileManagementController {
     @PutMapping("/check-out")
     public void checkOutFile(@RequestParam("file") MultipartFile file, @RequestParam("personId") long personId) {
         Long ownerId = ownerIdFile(file.getName());
-        if (findByName(file.getName()) == null) {
+        if (findByName(file.getOriginalFilename()) == null) {
             uploadFile(file, ownerId);
         }
         try {

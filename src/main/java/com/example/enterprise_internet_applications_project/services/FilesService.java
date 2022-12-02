@@ -30,7 +30,7 @@ public class FilesService {
         MyFile fileDB = new MyFile(fileName,false,false);
         FileUploadUtil.saveFile(fileName, file);
         fileDB.setOwner(personRepository.findById(ownerId).get());
-        if (findByName(file.getName()) == null) {
+        if (findByName(file.getOriginalFilename()) == null) {
             filesRepository.save(fileDB);
         }
     }
