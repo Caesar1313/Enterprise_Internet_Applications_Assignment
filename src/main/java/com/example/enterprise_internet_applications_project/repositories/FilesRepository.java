@@ -23,7 +23,7 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE MyFile AS f SET f.status=?1 WHERE f.name=?2")
-    void changeStatusFile(boolean status, String nameFile,Long personID);
+    void changeStatusFile(boolean status, String nameFile);
 
     @Query(value = "SELECT f.id FROM MyFile AS f WHERE f.name = ?1")
     Long getIdFile(String nameFile);
@@ -38,13 +38,13 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
     @Transactional
     @Modifying
     @Query(value = "UPDATE MyFile AS f SET f.pinding=true WHERE f.name=?1")
-    void pindingFile(String nameFile,Long personID);
+    void pindingFile(String nameFile);
 
     @Query(value = "UPDATE MyFile AS f SET f.pinding=false WHERE f.name=?1")
-    void unpindingFile(String nameFile,Long personID);
+    void unpindingFile(String nameFile);
 
     @Query(value = "SELECT f.pinding FROM MyFile f WHERE f.name = ?1")
-    boolean isPinding( String nameFile,Long personId);
+    boolean isPinding( String nameFile);
 
 
 }

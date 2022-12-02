@@ -35,20 +35,20 @@ public class FilesService {
         }
     }
 
-    public void pindingFile(String nameFile,Long personId){
-        filesRepository.pindingFile(nameFile,personId);
+    public void pindingFile(String nameFile){
+        filesRepository.pindingFile(nameFile);
     }
 
-    public void unpindingFile(String nameFile,Long personId){
-        filesRepository.unpindingFile(nameFile,personId);
+    public void unpindingFile(String nameFile){
+        filesRepository.unpindingFile(nameFile);
     }
 
     public MyFile getFile(long id) {
         return filesRepository.findById(id).get();
     }
 
-    public void changeStatusFile(boolean status, String nameFile,Long personId) {
-        filesRepository.changeStatusFile(status, nameFile,personId);
+    public void changeStatusFile(boolean status, String nameFile) {
+        filesRepository.changeStatusFile(status, nameFile);
     }
 
     public MyFile getFile(Long id) {
@@ -58,8 +58,8 @@ public class FilesService {
     public boolean statusFile(String nameFile) {
         return filesRepository.statusFile(nameFile);
     }
-    public boolean isPinding( String nameFile,Long personId) {
-        return filesRepository.isPinding(nameFile,personId);
+    public boolean isPinding( String nameFile) {
+        return filesRepository.isPinding(nameFile);
     }
 
     public List<MyFile> getFiles() {

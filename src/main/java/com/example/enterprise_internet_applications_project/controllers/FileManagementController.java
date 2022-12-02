@@ -98,9 +98,9 @@ public class FileManagementController {
     }
 
     @GetMapping("/changeStatusFile")
-    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status, Long personID) throws Exception {
+    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) throws Exception {
         try {
-            storageService.changeStatusFile(status, nameFile, personID);
+            storageService.changeStatusFile(status, nameFile);
         } catch (Exception e) {
             throw new Exception("not find this file : " + nameFile);
         }
@@ -126,17 +126,17 @@ public class FileManagementController {
 
     @GetMapping("/pindingFile")
     public void pindingFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
-        storageService.pindingFile(nameFile, personId);
+        storageService.pindingFile(nameFile);
     }
 
     @GetMapping("/unpindingFile")
     public void unpindingFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
-        storageService.unpindingFile(nameFile, personId);
+        storageService.unpindingFile(nameFile);
     }
 
     @PostMapping("/isPinding")
-    public boolean isPinding(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
-        return storageService.isPinding(nameFile, personId);
+    public boolean isPinding(@RequestParam("nameFile") String nameFile) {
+        return storageService.isPinding(nameFile);
     }
 
     @PostMapping("/bulk-check-in")
@@ -144,7 +144,7 @@ public class FileManagementController {
         boolean allFilesIsCheckout = true;
         for (String nameFile : nameFiles.get("nameFiles")
         ) {
-            if (isCheckIn(nameFile) || isPinding(nameFile, personId)) {
+            if (isCheckIn(nameFile) || isPinding(nameFile)) {
                 allFilesIsCheckout = false;
                 break;
             }
@@ -153,7 +153,7 @@ public class FileManagementController {
         if (allFilesIsCheckout) {
             for (String nameFile : nameFiles.get("nameFiles")
             ) {
-                checkInFile(nameFile, personId);
+                checkInFile(nameFile);
             }
         } else {
             for (String nameFile : nameFiles.get("nameFiles")
@@ -164,14 +164,14 @@ public class FileManagementController {
     }
 
     @GetMapping("/check-in")
-    public void checkInFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) throws Exception {
+    public void checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
         Long id;
         try {
             id = getIdFile(nameFile);
-            if (isCheckIn(nameFile) || isPinding(nameFile, personId)) {
+            if (isCheckIn(nameFile) || isPinding(nameFile)) {
                 throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
             }
-            changeStatusFile(nameFile, true, personId);
+            changeStatusFile(nameFile, true);
             downloadFile(id);
         } catch (Exception e) {
             throw new Exception("not find file : " + nameFile);
@@ -184,13 +184,13 @@ public class FileManagementController {
     }
 
     @PutMapping("/check-out")
-    public void checkOutFile(@RequestParam("file") MultipartFile file, @RequestParam("personId") long personId) {
+    public void checkOutFile(@RequestParam("file") MultipartFile file) {
         Long ownerId = ownerIdFile(file.getName());
         if (findByName(file.getOriginalFilename()) == null) {
             uploadFile(file, ownerId);
         }
         try {
-            changeStatusFile(file.getName(), false, personId);
+            changeStatusFile(file.getName(), false);
         } catch (Exception e) {
             throw new IllegalStateException("\"can't change status file to check out\"");
         }
