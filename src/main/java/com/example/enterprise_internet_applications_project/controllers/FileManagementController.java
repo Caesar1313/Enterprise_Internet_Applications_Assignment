@@ -2,8 +2,8 @@ package com.example.enterprise_internet_applications_project.controllers;
 
 import com.example.enterprise_internet_applications_project.models.MyFile;
 import com.example.enterprise_internet_applications_project.services.FileGroupService;
-import com.example.enterprise_internet_applications_project.utils.download.FileDownloadUtil;
 import com.example.enterprise_internet_applications_project.services.FilesService;
+import com.example.enterprise_internet_applications_project.utils.download.FileDownloadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -47,7 +47,7 @@ public class FileManagementController {
 
 
     @GetMapping("/downloadFile/{id}")
-    public ResponseEntity<?> downloadFile(@PathVariable("id") Long id){
+    public ResponseEntity<?> downloadFile(@PathVariable("id") Long id) {
         MyFile fileDB = storageService.getFile(id);
         FileDownloadUtil downloadUtil = new FileDownloadUtil();
 
@@ -56,7 +56,7 @@ public class FileManagementController {
         try {
             resource = downloadUtil.getFileAsResource(fileDB.getName());
             System.out.println(resource);
-        } catch (IOException exception){
+        } catch (IOException exception) {
             return ResponseEntity.internalServerError().build();
         }
 
@@ -68,14 +68,13 @@ public class FileManagementController {
                 .body(resource);
     }
 
-
     @PostMapping("/group")
-    public void addFileToGroup(@RequestParam("file_id") Long fileId,@RequestParam("group_id") Long groupId){
+    public void addFileToGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId) {
         fileGroupService.addFileToGroup(fileId, groupId);
     }
 
     @DeleteMapping("/group")
-    public void removeFileFromGroup(@RequestParam("file_id") Long fileId,@RequestParam("group_id") Long groupId){
+    public void removeFileFromGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId) {
         fileGroupService.removeFileFromGroup(fileId, groupId);
     }
 
@@ -90,18 +89,18 @@ public class FileManagementController {
     }
 
     @GetMapping("/statusFile")
-    public boolean statusFile(@RequestParam("nameFile") String nameFile) throws Exception{
-        try{
+    public boolean isCheckIn(@RequestParam("nameFile") String nameFile) throws Exception {
+        try {
             return storageService.statusFile(nameFile);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("not find this file : " + nameFile);
         }
     }
 
     @GetMapping("/changeStatusFile")
-    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) throws Exception {
+    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status, Long personID) throws Exception {
         try {
-            storageService.changeStatusFile(status, nameFile);
+            storageService.changeStatusFile(status, nameFile, personID);
         } catch (Exception e) {
             throw new Exception("not find this file : " + nameFile);
         }
@@ -125,35 +124,74 @@ public class FileManagementController {
         }
     }
 
+    @GetMapping("/pindingFile")
+    public void pindingFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
+        storageService.pindingFile(nameFile, personId);
+    }
+
+    @GetMapping("/unpindingFile")
+    public void unpindingFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
+        storageService.unpindingFile(nameFile, personId);
+    }
+
+    @PostMapping("/isPinding")
+    public boolean isPinding(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
+        return storageService.isPinding(nameFile, personId);
+    }
+
     @PostMapping("/bulk-check-in")
-    public void bulkCheckIn(@RequestParam("nameFiles") Map<String,List<String>> nameFiles) throws Exception {
+    public void bulkCheckIn(@RequestParam("nameFiles") Map<String, List<String>> nameFiles, @RequestParam("personId") Long personId) throws Exception {
+        boolean allFilesIsCheckout = true;
         for (String nameFile : nameFiles.get("nameFiles")
         ) {
-            checkInFile(nameFile);
+            if (isCheckIn(nameFile) || isPinding(nameFile, personId)) {
+                allFilesIsCheckout = false;
+                break;
+            }
+            pindingFile(nameFile, personId);
+        }
+        if (allFilesIsCheckout) {
+            for (String nameFile : nameFiles.get("nameFiles")
+            ) {
+                checkInFile(nameFile, personId);
+            }
+        } else {
+            for (String nameFile : nameFiles.get("nameFiles")
+            ) {
+                unpindingFile(nameFile, personId);
+            }
         }
     }
 
     @GetMapping("/check-in")
-    public void checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
+    public void checkInFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) throws Exception {
         Long id;
         try {
             id = getIdFile(nameFile);
-            if (statusFile(nameFile)) {
+            if (isCheckIn(nameFile) || isPinding(nameFile, personId)) {
                 throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
             }
-            changeStatusFile(nameFile, true);
+            changeStatusFile(nameFile, true, personId);
             downloadFile(id);
         } catch (Exception e) {
             throw new Exception("not find file : " + nameFile);
         }
     }
 
-    @GetMapping("/check-out")
-    public void checkOutFile(@RequestParam("file") MultipartFile file,@PathVariable("id") long ownerId) {
-        uploadFile(file,ownerId);
-        try{
-            changeStatusFile(file.getName(), false);
-        }catch (Exception e){
+    @PostMapping("/getOwnerIdForFile")
+    public Long ownerIdFile(String nameFile) {
+        return storageService.ownerIdFile(nameFile);
+    }
+
+    @PutMapping("/check-out")
+    public void checkOutFile(@RequestParam("file") MultipartFile file, @RequestParam("personId") long personId) {
+        Long ownerId = ownerIdFile(file.getName());
+        if (findByName(file.getName()) == null) {
+            uploadFile(file, ownerId);
+        }
+        try {
+            changeStatusFile(file.getName(), false, personId);
+        } catch (Exception e) {
             throw new IllegalStateException("\"can't change status file to check out\"");
         }
     }

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -25,22 +27,28 @@ public class FilesService {
 
     public void upload(MultipartFile file, long ownerId) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        MyFile fileDB = new MyFile(fileName,false);
+        MyFile fileDB = new MyFile(fileName,false,false);
         FileUploadUtil.saveFile(fileName, file);
+        fileDB.setOwner(personRepository.findById(ownerId).get());
         if (findByName(file.getName()) == null) {
-            fileDB.setOwner(personRepository.findById(ownerId).get());
             filesRepository.save(fileDB);
-        } else {
-            changeStatusFile(false, file.getName());
         }
+    }
+
+    public void pindingFile(String nameFile,Long personId){
+        filesRepository.pindingFile(nameFile,personId);
+    }
+
+    public void unpindingFile(String nameFile,Long personId){
+        filesRepository.unpindingFile(nameFile,personId);
     }
 
     public MyFile getFile(long id) {
         return filesRepository.findById(id).get();
     }
 
-    public void changeStatusFile(boolean status, String nameFile) {
-        filesRepository.changeStatusFile(status, nameFile);
+    public void changeStatusFile(boolean status, String nameFile,Long personId) {
+        filesRepository.changeStatusFile(status, nameFile,personId);
     }
 
     public MyFile getFile(Long id) {
@@ -49,6 +57,9 @@ public class FilesService {
 
     public boolean statusFile(String nameFile) {
         return filesRepository.statusFile(nameFile);
+    }
+    public boolean isPinding( String nameFile,Long personId) {
+        return filesRepository.isPinding(nameFile,personId);
     }
 
     public List<MyFile> getFiles() {
@@ -72,4 +83,6 @@ public class FilesService {
     public Long getIdFile(String nameFile) {
         return filesRepository.getIdFile(nameFile);
     }
+
+    public Long ownerIdFile(String nameFile){return filesRepository.ownerIdFile(nameFile);}
 }

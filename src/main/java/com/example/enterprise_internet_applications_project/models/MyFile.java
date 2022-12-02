@@ -18,6 +18,7 @@ public class MyFile {
 
     private String name;
     private boolean status;
+    private boolean pinding;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
@@ -33,6 +34,19 @@ public class MyFile {
     public MyFile(String name,boolean status){
         this.name = name;
         this.status = status;
+    }
+    public MyFile(String name,boolean status,boolean pinding){
+        this.name = name;
+        this.status = status;
+        this.pinding = pinding;
+    }
+
+    public boolean isPinding() {
+        return pinding;
+    }
+
+    public void setPinding(boolean pending) {
+        this.pinding = pending;
     }
 
     public boolean isStatus() {
