@@ -125,12 +125,12 @@ public class FileManagementController {
     }
 
     @GetMapping("/pindingFile")
-    public void pindingFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
+    public void pindingFile(@RequestParam("nameFile") String nameFile) {
         storageService.pindingFile(nameFile);
     }
 
     @GetMapping("/unpindingFile")
-    public void unpindingFile(@RequestParam("nameFile") String nameFile, @RequestParam("personId") Long personId) {
+    public void unpindingFile(@RequestParam("nameFile") String nameFile) {
         storageService.unpindingFile(nameFile);
     }
 
@@ -140,7 +140,7 @@ public class FileManagementController {
     }
 
     @PostMapping("/bulk-check-in")
-    public void bulkCheckIn(@RequestParam("nameFiles") Map<String, List<String>> nameFiles, @RequestParam("personId") Long personId) throws Exception {
+    public void bulkCheckIn(@RequestParam("nameFiles") Map<String, List<String>> nameFiles) throws Exception {
         boolean allFilesIsCheckout = true;
         for (String nameFile : nameFiles.get("nameFiles")
         ) {
@@ -148,7 +148,7 @@ public class FileManagementController {
                 allFilesIsCheckout = false;
                 break;
             }
-            pindingFile(nameFile, personId);
+            pindingFile(nameFile);
         }
         if (allFilesIsCheckout) {
             for (String nameFile : nameFiles.get("nameFiles")
@@ -158,7 +158,7 @@ public class FileManagementController {
         } else {
             for (String nameFile : nameFiles.get("nameFiles")
             ) {
-                unpindingFile(nameFile, personId);
+                unpindingFile(nameFile);
             }
         }
     }
