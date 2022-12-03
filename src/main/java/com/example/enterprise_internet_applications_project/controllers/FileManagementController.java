@@ -88,12 +88,21 @@ public class FileManagementController {
         return storageService.findByName(nameFile);
     }
 
-    @GetMapping("/statusFile")
-    public boolean isCheckIn(@RequestParam("nameFile") String nameFile) throws Exception {
+    @GetMapping("/getStatusFile")
+    public String statusFile(@RequestParam("nameFile") String nameFile){
+        try{
+            return nameFile + " : " + isCheckIn(nameFile);
+        }catch (Exception e){
+            throw new IllegalStateException("file not found");
+        }
+    }
+
+    @GetMapping("/isCheckInFile")
+    public boolean isCheckIn(@RequestParam("nameFile") String nameFile) {
         try {
             return storageService.statusFile(nameFile);
         } catch (Exception e) {
-            throw new Exception("not find this file : " + nameFile);
+            throw new IllegalStateException("not find this file : " + nameFile);
         }
     }
 
@@ -109,6 +118,7 @@ public class FileManagementController {
     @DeleteMapping("/deleteFile")
     public ResponseEntity<?> deleteFileByName(@RequestParam("nameFile") String nameFile) throws Exception {
         try {
+            //todo should add condition if this file for person
             return storageService.deleteFileByName(nameFile);
         } catch (Exception e) {
             throw new Exception("not find this file : " + nameFile);
@@ -139,7 +149,7 @@ public class FileManagementController {
         return storageService.isPinding(nameFile);
     }
 
-    @PostMapping("/bulk-check-in")
+    @GetMapping("/bulk-check-in")
     public void bulkCheckIn(@RequestParam("nameFiles") Map<String, List<String>> nameFiles) throws Exception {
         boolean allFilesIsCheckout = true;
         for (String nameFile : nameFiles.get("nameFiles")
@@ -193,6 +203,16 @@ public class FileManagementController {
             changeStatusFile(file.getName(), false);
         } catch (Exception e) {
             throw new IllegalStateException("\"can't change status file to check out\"");
+        }
+    }
+
+    @GetMapping("/readFile")
+    public void readFile(String nameFile){
+        try{
+            Long idFile = getIdFile(nameFile);
+            downloadFile(idFile);
+        }catch (Exception e){
+            throw new IllegalStateException("can't get id file");
         }
     }
 }
