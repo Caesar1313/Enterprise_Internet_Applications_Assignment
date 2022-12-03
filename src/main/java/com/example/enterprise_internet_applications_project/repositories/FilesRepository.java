@@ -40,6 +40,8 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
     @Query(value = "UPDATE MyFile AS f SET f.pinding=true WHERE f.name=?1")
     void pindingFile(String nameFile);
 
+    @Transactional
+    @Modifying
     @Query(value = "UPDATE MyFile AS f SET f.pinding=false WHERE f.name=?1")
     void unpindingFile(String nameFile);
 

@@ -144,13 +144,13 @@ public class FileManagementController {
         storageService.unpindingFile(nameFile);
     }
 
-    @PostMapping("/isPinding")
+    @GetMapping("/isPinding")
     public boolean isPinding(@RequestParam("nameFile") String nameFile) {
         return storageService.isPinding(nameFile);
     }
 
     @GetMapping("/bulk-check-in")
-    public void bulkCheckIn(@RequestParam("nameFiles") Map<String, List<String>> nameFiles) throws Exception {
+    public void bulkCheckIn(@RequestBody Map<String, List<String>> nameFiles) throws Exception {
         boolean allFilesIsCheckout = true;
         for (String nameFile : nameFiles.get("nameFiles")
         ) {
@@ -163,13 +163,42 @@ public class FileManagementController {
         if (allFilesIsCheckout) {
             for (String nameFile : nameFiles.get("nameFiles")
             ) {
-                checkInFile(nameFile);
+                bulkCheckInFile(nameFile);
+                unpindingFile(nameFile);
             }
         } else {
             for (String nameFile : nameFiles.get("nameFiles")
             ) {
                 unpindingFile(nameFile);
             }
+        }
+
+//        for (String fileName : nameFiles.get("nameFiles")){
+//            if(isCheckIn(fileName) || isPinding(fileName)){
+//                for (String nameFile : nameFiles.get("nameFiles")) {
+//                    unpindingFile(nameFile);
+//                }
+//                return;
+//            } else
+//                pindingFile(fileName);
+//        }
+//        for (String nameFile : nameFiles.get("nameFiles")) {
+//            bulkCheckInFile(nameFile);
+//        }
+
+    }
+
+    private void bulkCheckInFile(String nameFile) throws Exception {
+        Long id;
+        try {
+            id = getIdFile(nameFile);
+            if (isCheckIn(nameFile)) {
+                throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
+            }
+            changeStatusFile(nameFile, true);
+            downloadFile(id);
+        } catch (Exception e) {
+            throw new Exception("not find file : " + nameFile);
         }
     }
 
@@ -195,12 +224,12 @@ public class FileManagementController {
 
     @PutMapping("/check-out")
     public void checkOutFile(@RequestParam("file") MultipartFile file) {
-        Long ownerId = ownerIdFile(file.getName());
+        Long ownerId = ownerIdFile(file.getOriginalFilename());
         if (findByName(file.getOriginalFilename()) == null) {
             uploadFile(file, ownerId);
         }
         try {
-            changeStatusFile(file.getName(), false);
+            changeStatusFile(file.getOriginalFilename(), false);
         } catch (Exception e) {
             throw new IllegalStateException("\"can't change status file to check out\"");
         }
