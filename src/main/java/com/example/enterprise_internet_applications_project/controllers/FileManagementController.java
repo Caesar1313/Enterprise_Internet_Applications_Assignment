@@ -203,7 +203,7 @@ public class FileManagementController {
     }
 
     @GetMapping("/check-in")
-    public void checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
+    public ResponseEntity<?> checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
         Long id;
         try {
             id = getIdFile(nameFile);
@@ -211,7 +211,7 @@ public class FileManagementController {
                 throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
             }
             changeStatusFile(nameFile, true);
-            downloadFile(id);
+            return downloadFile(id);
         } catch (Exception e) {
             throw new Exception("not find file : " + nameFile);
         }
