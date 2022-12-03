@@ -23,6 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class JWTSecurityConfig {
+    private static final String[] WHITELIST_PATTERNS = {"/api/file/**", "/api/group/person/**","api/group/**"};
+
 
     @Autowired
     private JWTEntryPoint jwtEntryPoint;
@@ -57,8 +59,12 @@ public class JWTSecurityConfig {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/api/person/**").permitAll()
+//                .and()
+//                .authorizeRequests().antMatchers(WHITELIST_PATTERNS).permitAll()
                 .anyRequest()
                 .authenticated()
+                .and()
+                .headers().frameOptions().sameOrigin()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -67,4 +73,5 @@ public class JWTSecurityConfig {
 
         return httpSecurity.build();
     }
+
 }

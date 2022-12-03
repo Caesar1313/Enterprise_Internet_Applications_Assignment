@@ -1,6 +1,7 @@
 package com.example.enterprise_internet_applications_project.services;
 
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,9 +28,11 @@ public class AuthUserDetailService implements UserDetailsService {
     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("eyad".equals(username)) {
-            return new User("eyad", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
-                    new ArrayList<>());
+        if ("username".equals(username)) {
+            ArrayList<GrantedAuthority> roles = new ArrayList<>();
+            roles.add((GrantedAuthority) () -> "USER");
+            return new User("username", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
+                    roles);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

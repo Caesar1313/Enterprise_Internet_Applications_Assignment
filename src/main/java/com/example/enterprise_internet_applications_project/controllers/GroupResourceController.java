@@ -4,6 +4,7 @@ package com.example.enterprise_internet_applications_project.controllers;
 import com.example.enterprise_internet_applications_project.services.GroupResourceService;
 import com.example.enterprise_internet_applications_project.models.Group;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/group")
+@PreAuthorize("hasRole('USER')")
 public class GroupResourceController {
     private final GroupResourceService groupResourceService;
 
