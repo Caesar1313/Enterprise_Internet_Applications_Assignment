@@ -63,8 +63,8 @@ public class JWTSecurityConfig {
 //                .authorizeRequests().antMatchers(WHITELIST_PATTERNS).permitAll()
                 .anyRequest()
                 .authenticated()
-                .and()
-                .headers().frameOptions().sameOrigin()
+//                .and()
+//                .headers().frameOptions().sameOrigin()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

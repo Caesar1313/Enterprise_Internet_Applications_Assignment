@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/person")
-@PreAuthorize("hasRole('USER')")
 public class PersonResourceController{
 
     @Autowired

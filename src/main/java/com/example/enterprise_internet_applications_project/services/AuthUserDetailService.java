@@ -32,7 +32,7 @@ public class AuthUserDetailService implements UserDetailsService {
             ArrayList<GrantedAuthority> roles = new ArrayList<>();
             roles.add((GrantedAuthority) () -> "USER");
             return new User("username", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
-                    roles);
+                   roles);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

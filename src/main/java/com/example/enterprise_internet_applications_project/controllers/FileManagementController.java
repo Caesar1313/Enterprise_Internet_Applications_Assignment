@@ -21,7 +21,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/file")
-@PreAuthorize("hasRole('USER')")
 public class FileManagementController {
 
 
