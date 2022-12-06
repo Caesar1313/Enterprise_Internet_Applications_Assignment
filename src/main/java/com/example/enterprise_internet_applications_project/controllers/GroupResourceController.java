@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/group")
+
 public class GroupResourceController {
     private final GroupResourceService groupResourceService;
 

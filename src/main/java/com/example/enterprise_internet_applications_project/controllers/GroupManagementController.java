@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/group/person")
+
 public class GroupManagementController {
 
     private final GroupManagementService groupManagementService;
