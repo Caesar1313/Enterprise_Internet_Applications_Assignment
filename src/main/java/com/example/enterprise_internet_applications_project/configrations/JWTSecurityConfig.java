@@ -2,6 +2,7 @@ package com.example.enterprise_internet_applications_project.configrations;
 
 import com.example.enterprise_internet_applications_project.configrations.util.JWTEntryPoint;
 import com.example.enterprise_internet_applications_project.configrations.util.JWTFilter;
+import com.example.enterprise_internet_applications_project.services.AuthUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +32,7 @@ public class JWTSecurityConfig {
     private JWTEntryPoint jwtEntryPoint;
 
     @Autowired
-    private UserDetailsService jwtUserDetailsService;
+    private AuthUserDetailService jwtUserDetailsService;
 
     @Autowired
     private JWTFilter jwtRequestFilter;
@@ -59,8 +61,6 @@ public class JWTSecurityConfig {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/api/person/**").permitAll()
-//                .and()
-//                .authorizeRequests().antMatchers(WHITELIST_PATTERNS).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -73,5 +73,12 @@ public class JWTSecurityConfig {
 
         return httpSecurity.build();
     }
+
+//    @Bean(name = "preAuthProvider")
+//    PreAuthenticatedAuthenticationProvider preauthAuthProvider() throws Exception {
+//        PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+//        provider.setPreAuthenticatedUserDetailsService(jwtUserDetailsService);
+//        return provider;
+//    }
 
 }
