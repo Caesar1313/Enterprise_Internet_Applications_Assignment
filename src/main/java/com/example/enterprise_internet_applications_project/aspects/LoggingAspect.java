@@ -45,7 +45,7 @@ public class LoggingAspect {
     }
 
 
-    @AfterReturning("logController()")
+    @AfterReturning("execution(* com.example.enterprise_internet_applications_project.services..*(..))")
     public void logsResponse(JoinPoint joinPoint){
         logger.info(joinPoint.getSignature().getName());
         logger.info(joinPointForLogs(joinPoint,"RESPONSE"));
