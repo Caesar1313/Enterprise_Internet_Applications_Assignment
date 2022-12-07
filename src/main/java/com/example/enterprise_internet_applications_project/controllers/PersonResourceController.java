@@ -29,7 +29,7 @@ public class PersonResourceController{
 
 
     @GetMapping(path = "{id}")
-    public Optional<Person> find(@RequestParam Long id){return personResourceService.find(id);}
+    public Optional<Person> find(@RequestParam long id){return personResourceService.find(id);}
 
 
     @PutMapping

@@ -1,6 +1,9 @@
 package com.example.enterprise_internet_applications_project.services;
 
 
+import com.example.enterprise_internet_applications_project.models.Authorities;
+import com.example.enterprise_internet_applications_project.models.Person;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -14,6 +17,11 @@ import java.util.ArrayList;
 
 @Service
 public class AuthUserDetailService implements UserDetailsService {
+
+
+    @Autowired
+    AuthorityService authorityService;
+
 
 
     /**
@@ -30,14 +38,19 @@ public class AuthUserDetailService implements UserDetailsService {
     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("username".equals(username)) {
-            ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("USER"));
-            return new User("username", "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
-                    authorities);
+
+        if (authorityService.findUserAuthorities(username).isPresent()
+                && authorityService.findUserDetails(username).isPresent()) {
+
+            Authorities authorities = authorityService.findUserAuthorities(username).get();
+            Person person = authorityService.findUserDetails(username).get();
+
+            ArrayList<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority(authorities.getAuthority()));
+            return new User(person.getName(), person.getPassword(),
+                    roles);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
     }
-
 }

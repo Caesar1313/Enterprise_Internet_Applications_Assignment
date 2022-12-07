@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/group")
-
+//@PreAuthorize("hasRole('ROLE_USER')")
 public class GroupResourceController {
     private final GroupResourceService groupResourceService;
 
