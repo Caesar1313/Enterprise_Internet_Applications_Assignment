@@ -6,13 +6,54 @@ import javax.persistence.*;
 @Table(name = "authorities")
 public class Authorities {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String authority;
 
     @OneToOne
     @JoinColumn(name = "name", referencedColumnName = "name")
     Person person;
+
+    public Authorities() {
+    }
+
+    public Authorities(Long id, String authority, Person person) {
+        this.id = id;
+        this.authority = authority;
+        this.person = person;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        return "Authorities{" +
+                "id=" + id +
+                ", authority='" + authority + '\'' +
+                ", person=" + person +
+                '}';
+    }
 }

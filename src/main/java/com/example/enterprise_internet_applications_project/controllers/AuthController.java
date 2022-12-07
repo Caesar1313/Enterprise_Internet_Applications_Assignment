@@ -4,6 +4,7 @@ package com.example.enterprise_internet_applications_project.controllers;
 import com.example.enterprise_internet_applications_project.configrations.util.JWTUtil;
 import com.example.enterprise_internet_applications_project.models.security.JWTRequestModel;
 import com.example.enterprise_internet_applications_project.models.security.JWTResponseModel;
+import com.example.enterprise_internet_applications_project.services.AuthUserDetailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ public class AuthController {
 
     Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -34,11 +34,11 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private AuthUserDetailService userDetailsService;
 
 
     @GetMapping("/security/test")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String getSecurityMethodName(){
         return "This api use JWT as security method " ;
     }
@@ -47,7 +47,7 @@ public class AuthController {
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JWTRequestModel jwtRequestModel)
             throws Exception {
 
-        authenticate(jwtRequestModel.getUsername(), jwtRequestModel.getPassword());
+//        authenticate(jwtRequestModel.getUsername(), jwtRequestModel.getPassword());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(jwtRequestModel.getUsername());
         final String token = jwtUtil.generateToken(userDetails);

@@ -2,20 +2,23 @@ package com.example.enterprise_internet_applications_project.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.aspectj.lang.annotation.RequiredTypes;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements Serializable {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+
+     String name;
 
     private String password;
 

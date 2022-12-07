@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "api/group/person")
+@PreAuthorize("hasRole('ROLE_USER')")
 
 public class GroupManagementController {
 
