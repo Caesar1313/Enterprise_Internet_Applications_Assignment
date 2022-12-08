@@ -1,7 +1,9 @@
 package com.example.enterprise_internet_applications_project.services;
 
 
+import com.example.enterprise_internet_applications_project.models.Authorities;
 import com.example.enterprise_internet_applications_project.models.Person;
+import com.example.enterprise_internet_applications_project.repositories.AuthorityRepository;
 import com.example.enterprise_internet_applications_project.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,11 +18,14 @@ public class PersonResourceService {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     public void create(Person person) {
         String password = person.getPassword();
         person.setPassword(new BCryptPasswordEncoder().encode(password));
-        personRepository.save(person);
+        Person p = personRepository.save(person);
+        authorityRepository.save(new Authorities(0L, person.getAuthorities().getAuthority(), p));
     }
 
 

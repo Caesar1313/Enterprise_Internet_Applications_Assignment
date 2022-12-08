@@ -18,7 +18,7 @@ public class Person implements Serializable {
     private Long id;
 
 
-     String name;
+    private String name;
 
     private String password;
 
@@ -30,7 +30,7 @@ public class Person implements Serializable {
     private List<MyFile> files;
 
 
-    @OneToOne(mappedBy = "person")
+    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
     Authorities authorities;
 
 
@@ -98,8 +98,8 @@ public class Person implements Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", personGroups=" + personGroups +
-                ", personGroups=" + personGroups +
                 ", files=" + files +
+                ", authorities=" + authorities +
                 '}';
     }
 }

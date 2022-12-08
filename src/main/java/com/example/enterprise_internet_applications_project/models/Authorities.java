@@ -20,9 +20,10 @@ public class Authorities {
     public Authorities() {
     }
 
-    public Authorities(Long id, String authority) {
+    public Authorities(Long id, String authority, Person person) {
         this.id = id;
         this.authority = authority;
+        this.person = person;
     }
 
     public Long getId() {
