@@ -19,12 +19,15 @@ public class AuthorityService {
     AuthorityRepository authorityRepository;
 
 
-    public Optional<Person> findUserDetails(String useName){return personRepository.findByName(useName);}
+    public Optional<Person> findUserDetails(String useName) {
+        return personRepository.findByName(useName);
+    }
 
-     public Optional<Authorities> findUserAuthorities(String useName){
-        
+    public Optional<Authorities> findUserAuthorities(String useName) {
+        return authorityRepository.findByName(useName);
+    }
 
-     return authorityRepository.findByName(useName);}
+
 
 
 }

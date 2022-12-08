@@ -1,5 +1,7 @@
 package com.example.enterprise_internet_applications_project.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,16 +14,15 @@ public class Authorities {
     String authority;
 
     @OneToOne
-    @JoinColumn(name = "name", referencedColumnName = "name")
+    @JoinColumn(name = "name")
     Person person;
 
     public Authorities() {
     }
 
-    public Authorities(Long id, String authority, Person person) {
+    public Authorities(Long id, String authority) {
         this.id = id;
         this.authority = authority;
-        this.person = person;
     }
 
     public Long getId() {

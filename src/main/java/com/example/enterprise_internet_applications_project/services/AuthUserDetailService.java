@@ -47,8 +47,7 @@ public class AuthUserDetailService implements UserDetailsService {
 
             ArrayList<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority(authorities.getAuthority()));
-            return new User(person.getName(), person.getPassword(),
-                    roles);
+            return new User(person.getName(), person.getPassword(), roles);
         } else {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }

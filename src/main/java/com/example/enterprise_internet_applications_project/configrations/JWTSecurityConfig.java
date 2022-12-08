@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class JWTSecurityConfig {
-    private static final String[] WHITELIST_PATTERNS = {"/api/file/**", "/api/group/person/**","api/group/**"};
+    private static final String[] WHITELIST_PATTERNS = {"/api/file/**", "/api/group/person/**", "api/group/**"};
 
 
     @Autowired

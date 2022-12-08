@@ -39,20 +39,25 @@ public class AuthController {
 
     @GetMapping("/security/test")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public String getSecurityMethodName(){
-        return "This api use JWT as security method " ;
+    public String getSecurityMethodName() {
+        return "This api use JWT as security method ";
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JWTRequestModel jwtRequestModel)
             throws Exception {
 
-//        authenticate(jwtRequestModel.getUsername(), jwtRequestModel.getPassword());
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(jwtRequestModel.getUsername());
-        final String token = jwtUtil.generateToken(userDetails);
+        authenticate(jwtRequestModel.getUsername(), jwtRequestModel.getPassword());
+        try {
+            final UserDetails userDetails = userDetailsService
+                    .loadUserByUsername(jwtRequestModel.getUsername());
+            final String token = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JWTResponseModel(token));
+            return ResponseEntity.ok(new JWTResponseModel(token));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     private void authenticate(String username, String password) throws Exception {
