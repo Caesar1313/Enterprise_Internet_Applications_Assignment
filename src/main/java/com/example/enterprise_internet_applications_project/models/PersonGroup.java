@@ -1,6 +1,8 @@
 package com.example.enterprise_internet_applications_project.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,9 +14,11 @@ public class PersonGroup {
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id",nullable = false,referencedColumnName = "id")
+    @JsonIgnoreProperties(value = "person", allowSetters = true)
     private Person person;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id",nullable = false,referencedColumnName = "id")
+    @JsonIgnoreProperties(value = "person", allowSetters = true)
     private Group group;
 
 

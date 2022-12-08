@@ -14,7 +14,7 @@ public class Authorities {
     String authority;
 
     @OneToOne
-    @JoinColumn(name = "name")
+    @JoinColumn(name = "person_id")
     Person person;
 
     public Authorities() {

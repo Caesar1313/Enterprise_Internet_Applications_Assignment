@@ -14,6 +14,7 @@ public class MyFile {
     private long id;
 
     @OneToMany(mappedBy = "file")
+    @JsonIgnoreProperties(value = "person", allowSetters = true)
     private List<FileGroup> fileGroups;
 
     private String name;

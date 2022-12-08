@@ -61,6 +61,8 @@ public class JWTSecurityConfig {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/api/person/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/test").permitAll()
                 .anyRequest()
                 .authenticated()
 //                .and()
