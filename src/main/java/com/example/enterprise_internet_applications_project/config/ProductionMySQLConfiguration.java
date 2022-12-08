@@ -51,7 +51,7 @@ public class ProductionMySQLConfiguration {
     @Primary
     public LocalContainerEntityManagerFactoryBean proEntityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder.dataSource(proDatasource())
-                .packages(Person.class, Group.class, FileGroup.class, MyFile.class, PersonGroup.class)
+                .packages("com.example.enterprise_internet_applications_project.models")
                 .build();
     }
 

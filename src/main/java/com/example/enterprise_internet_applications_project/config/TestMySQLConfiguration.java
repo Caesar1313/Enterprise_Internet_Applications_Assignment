@@ -50,7 +50,7 @@ public class TestMySQLConfiguration {
     @Primary
     public LocalContainerEntityManagerFactoryBean testEntityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder.dataSource(testDatasource())
-                .packages(Person.class, Group.class, FileGroup.class, MyFile.class, PersonGroup.class)
+                .packages("com.example.enterprise_internet_applications_project.models")
                 .build();
     }
 

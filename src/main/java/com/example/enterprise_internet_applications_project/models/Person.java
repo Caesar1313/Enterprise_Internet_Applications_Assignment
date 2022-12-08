@@ -37,13 +37,10 @@ public class Person implements Serializable {
     public Person() {
     }
 
-    public Person(Long id, String name) {
+    public Person(Long id, String name, String password) {
         this.id = id;
         this.name = name;
-    }
-
-    public Person(String name) {
-        this.name = name;
+        this.password = password;
     }
 
     public Long getId() {
@@ -68,6 +65,30 @@ public class Person implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<PersonGroup> getPersonGroups() {
+        return personGroups;
+    }
+
+    public void setPersonGroups(List<PersonGroup> personGroups) {
+        this.personGroups = personGroups;
+    }
+
+    public List<MyFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MyFile> files) {
+        this.files = files;
+    }
+
+    public Authorities getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Authorities authorities) {
+        this.authorities = authorities;
     }
 
     @Override
