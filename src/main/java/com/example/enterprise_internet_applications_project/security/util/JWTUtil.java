@@ -1,4 +1,4 @@
-package com.example.enterprise_internet_applications_project.configrations.util;
+package com.example.enterprise_internet_applications_project.security.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

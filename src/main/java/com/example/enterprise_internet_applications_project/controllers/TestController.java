@@ -1,28 +1,30 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
-import com.example.enterprise_internet_applications_project.models.Person;
-import com.example.enterprise_internet_applications_project.services.PersonResourceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.Bucket4j;
+import io.github.bucket4j.Refill;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.time.Duration;
 
 @RestController
 public class TestController {
 
-    @Autowired
-    PersonResourceService personResourceService;
+    private final Bucket bucket;
 
-    @GetMapping("/security/test")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String getSecurityMethodName(){
-        return "This api use JWT as security method " ;
+    public TestController() {
+        Bandwidth limit = Bandwidth.classic(3, Refill.greedy(3, Duration.ofMinutes(1)));
+        this.bucket = Bucket4j.builder()
+                .addLimit(limit)
+                .build();
     }
-
     @GetMapping("/test")
-    public List<Person> getPerson(){
-        return personResourceService.read();
+    private String getTest(){
+        System.out.println("EYAD");
+       return "test";
+
     }
 }

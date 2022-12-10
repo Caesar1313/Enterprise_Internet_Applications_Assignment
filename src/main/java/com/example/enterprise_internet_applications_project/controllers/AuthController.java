@@ -1,9 +1,9 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
 
-import com.example.enterprise_internet_applications_project.configrations.util.JWTUtil;
-import com.example.enterprise_internet_applications_project.models.security.JWTRequestModel;
-import com.example.enterprise_internet_applications_project.models.security.JWTResponseModel;
+import com.example.enterprise_internet_applications_project.security.util.JWTUtil;
+import com.example.enterprise_internet_applications_project.models.jwtModel.JWTRequestModel;
+import com.example.enterprise_internet_applications_project.models.jwtModel.JWTResponseModel;
 import com.example.enterprise_internet_applications_project.services.AuthUserDetailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -40,6 +39,7 @@ public class AuthController {
     @GetMapping("/security/test")
     @PreAuthorize("hasRole('ROLE_USER')")
     public String getSecurityMethodName() {
+//        return httpServletRequest.getRemoteAddr();
         return "This api use JWT as security method ";
     }
 

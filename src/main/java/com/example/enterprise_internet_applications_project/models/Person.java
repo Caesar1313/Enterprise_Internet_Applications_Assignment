@@ -12,11 +12,9 @@ import java.util.List;
 @Table(name = "person")
 public class Person implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     private String name;
 
@@ -30,8 +28,11 @@ public class Person implements Serializable {
     private List<MyFile> files;
 
 
-    @OneToOne(mappedBy = "person",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "person")
     Authorities authorities;
+
+    @OneToOne(mappedBy = "person")
+    UserIp userIp;
 
 
     public Person() {
@@ -89,6 +90,15 @@ public class Person implements Serializable {
 
     public void setAuthorities(Authorities authorities) {
         this.authorities = authorities;
+    }
+
+
+    public UserIp getUserIp() {
+        return userIp;
+    }
+
+    public void setUserIp(UserIp userIp) {
+        this.userIp = userIp;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.enterprise_internet_applications_project.models.security;
+package com.example.enterprise_internet_applications_project.models.jwtModel;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.example.enterprise_internet_applications_project.configrations.util;
+package com.example.enterprise_internet_applications_project.security.util;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

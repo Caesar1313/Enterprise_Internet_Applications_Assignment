@@ -12,15 +12,17 @@ import java.util.Optional;
 @Service
 public class AuthorityService {
 
-    @Autowired
-    PersonRepository personRepository;
 
     @Autowired
     AuthorityRepository authorityRepository;
 
 
-    public Optional<Person> findUserDetails(String useName) {
-        return personRepository.findByName(useName);
+    public void create(Authorities authorities) {
+        authorityRepository.save(authorities);
+    }
+
+    public Optional<Authorities> findByPersonId(Long id){
+        return authorityRepository.findByPersonId(id);
     }
 
     public Optional<Authorities> findUserAuthorities(String useName) {
@@ -28,6 +30,8 @@ public class AuthorityService {
     }
 
 
-
+    public void updateAuthorities(Authorities authorities) {
+         authorityRepository.save(authorities);
+    }
 
 }

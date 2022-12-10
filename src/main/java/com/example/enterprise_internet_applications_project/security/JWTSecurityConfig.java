@@ -1,7 +1,7 @@
-package com.example.enterprise_internet_applications_project.configrations;
+package com.example.enterprise_internet_applications_project.security;
 
-import com.example.enterprise_internet_applications_project.configrations.util.JWTEntryPoint;
-import com.example.enterprise_internet_applications_project.configrations.util.JWTFilter;
+import com.example.enterprise_internet_applications_project.security.util.JWTEntryPoint;
+import com.example.enterprise_internet_applications_project.security.util.JWTFilter;
 import com.example.enterprise_internet_applications_project.services.AuthUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,14 +12,13 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
 @EnableWebSecurity
@@ -55,6 +54,15 @@ public class JWTSecurityConfig {
 
     }
 
+//    @Bean
+//    public SecurityWebFilterChain securityWebFilterChain(
+//            ServerHttpSecurity http) {
+//        return http.authorizeExchange()
+//                .pathMatchers("/actuator/**").permitAll()
+//                .anyExchange().authenticated()
+//                .and().build();
+//    }
+
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
@@ -65,8 +73,6 @@ public class JWTSecurityConfig {
                 .authorizeRequests().antMatchers("/test").permitAll()
                 .anyRequest()
                 .authenticated()
-//                .and()
-//                .headers().frameOptions().sameOrigin()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -75,12 +81,5 @@ public class JWTSecurityConfig {
 
         return httpSecurity.build();
     }
-
-//    @Bean(name = "preAuthProvider")
-//    PreAuthenticatedAuthenticationProvider preauthAuthProvider() throws Exception {
-//        PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-//        provider.setPreAuthenticatedUserDetailsService(jwtUserDetailsService);
-//        return provider;
-//    }
 
 }

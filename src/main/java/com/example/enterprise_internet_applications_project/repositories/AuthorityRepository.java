@@ -17,4 +17,6 @@ public interface AuthorityRepository extends JpaRepository<Authorities,Long> {
 
     @Query("SELECT a FROM Authorities a WHERE a.person.name =:name")
     Optional<Authorities> findByName(@Param("name") String name);
+
+    Optional<Authorities> findByPersonId(Long personId);
 }

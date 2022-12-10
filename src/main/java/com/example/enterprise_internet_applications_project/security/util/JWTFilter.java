@@ -1,6 +1,5 @@
-package com.example.enterprise_internet_applications_project.configrations.util;
+package com.example.enterprise_internet_applications_project.security.util;
 
-import com.example.enterprise_internet_applications_project.controllers.AuthController;
 import com.example.enterprise_internet_applications_project.services.AuthUserDetailService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;

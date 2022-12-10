@@ -22,15 +22,8 @@ public class AuthUserDetailService implements UserDetailsService {
     @Autowired
     AuthorityService authorityService;
 
-
-
-    /**
-     * this method used with the other jwt security config
-     */
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return new User("eyad","eyad",new ArrayList<>());
-//    }
+    @Autowired
+    PersonResourceService personResourceService;
 
 
    /*
@@ -40,10 +33,10 @@ public class AuthUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         if (authorityService.findUserAuthorities(username).isPresent()
-                && authorityService.findUserDetails(username).isPresent()) {
+                && personResourceService.findUserDetails(username).isPresent()) {
 
             Authorities authorities = authorityService.findUserAuthorities(username).get();
-            Person person = authorityService.findUserDetails(username).get();
+            Person person = personResourceService.findUserDetails(username).get();
 
             ArrayList<GrantedAuthority> roles = new ArrayList<>();
             roles.add(new SimpleGrantedAuthority(authorities.getAuthority()));

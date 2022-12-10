@@ -1,4 +1,4 @@
-package com.example.enterprise_internet_applications_project.configrations;
+package com.example.enterprise_internet_applications_project.security;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
