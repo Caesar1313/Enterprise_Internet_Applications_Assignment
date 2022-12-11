@@ -23,8 +23,12 @@ public class TestController {
     }
     @GetMapping("/test")
     private String getTest(){
-        System.out.println("EYAD");
-       return "test";
+        if(bucket.tryConsume(1)){
+            System.out.println("EYAD");
+            return "test";
+        }
+        else return "Failed to test";
+
 
     }
 }
