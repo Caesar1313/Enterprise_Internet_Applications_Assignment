@@ -246,4 +246,9 @@ public class FileManagementController {
             throw new IllegalStateException("can't get id file");
         }
     }
+
+    @GetMapping("/files/in/group/{group_id}")
+    public List<String> getFilesInGroup(@PathVariable("group_id") Long groupId){
+        return fileGroupService.getFilesInGroup(groupId);
+    }
 }
