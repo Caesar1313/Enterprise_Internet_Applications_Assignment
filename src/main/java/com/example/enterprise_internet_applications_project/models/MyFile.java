@@ -14,9 +14,12 @@ public class MyFile {
     private long id;
 
     @OneToMany(mappedBy = "file")
+    @JsonIgnoreProperties(value = "person", allowSetters = true)
     private List<FileGroup> fileGroups;
 
     private String name;
+    private boolean status;
+    private boolean pinding;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
@@ -28,6 +31,31 @@ public class MyFile {
 
     public MyFile(String name){
         this.name = name;
+    }
+    public MyFile(String name,boolean status){
+        this.name = name;
+        this.status = status;
+    }
+    public MyFile(String name,boolean status,boolean pinding){
+        this.name = name;
+        this.status = status;
+        this.pinding = pinding;
+    }
+
+    public boolean isPinding() {
+        return pinding;
+    }
+
+    public void setPinding(boolean pending) {
+        this.pinding = pending;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public long getId() {
@@ -52,6 +80,7 @@ public class MyFile {
                 "id=" + id +
                 ", fileGroups=" + fileGroups +
                 ", name='" + name + '\'' +
+                ", status='" + status + '\''+
                 ", owner=" + owner +
                 '}';
     }

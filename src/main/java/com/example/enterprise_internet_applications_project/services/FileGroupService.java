@@ -8,7 +8,11 @@ import com.example.enterprise_internet_applications_project.repositories.FileGro
 import com.example.enterprise_internet_applications_project.repositories.FilesRepository;
 import com.example.enterprise_internet_applications_project.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -25,6 +29,7 @@ public class FileGroupService {
         this.fileGroupRepository = fileGroupRepository;
     }
 
+    @CacheEvict(cacheNames = "filesInGroup", allEntries = true)
     public void addFileToGroup(Long fileId,Long groupId){
         Group group = groupRepository.findById(groupId).get();
         MyFile file = filesRepository.findById(fileId).get();
@@ -35,8 +40,15 @@ public class FileGroupService {
         fileGroupRepository.save(fileGroup);
     }
 
+    @CacheEvict(cacheNames = "filesInGroup", allEntries = true)
     public void removeFileFromGroup(Long fileId,Long groupId){
         FileGroup fileGroup = fileGroupRepository.findFileInGroup(fileId, groupId);
         fileGroupRepository.delete(fileGroup);
+    }
+
+    @Cacheable(cacheNames = "filesInGroup", key = "#groupId")
+    public List<String> getFilesInGroup(Long groupId){
+        System.out.println("FETCHING FROM DB");
+        return fileGroupRepository.getFileNamesInGroup(groupId);
     }
 }
