@@ -29,9 +29,11 @@ public class Person implements Serializable {
 
 
     @OneToOne(mappedBy = "person")
+    @JsonIgnoreProperties(value = "person", allowSetters = true)
     Authorities authorities;
 
     @OneToOne(mappedBy = "person")
+    @JsonIgnoreProperties(value = "person", allowSetters = true)
     UserIp userIp;
 
 
