@@ -1,5 +1,6 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
+import com.example.enterprise_internet_applications_project.models.Group;
 import com.example.enterprise_internet_applications_project.models.MyFile;
 import com.example.enterprise_internet_applications_project.models.Person;
 import com.example.enterprise_internet_applications_project.services.FileGroupService;
@@ -84,7 +85,10 @@ public class FileManagementController {
 
         boolean ok = false;
         for (int i = 0; i < p.getPersonGroups().size(); i++) {
-            ok = p.getPersonGroups().get(i).getGroup().getId().equals(groupId);
+            if(p.getPersonGroups().get(i).getGroup().getId().equals(groupId)){
+                ok = true;
+                break;
+            }
         }
         if (!ok) {
             throw new IllegalStateException("this user is not belong to this group .. ");
@@ -95,7 +99,25 @@ public class FileManagementController {
     }
 
     @DeleteMapping("/group")
-    public void removeFileFromGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId) {
+    public void removeFileFromGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId, @RequestParam("userId") Long userId) {
+        Person p = personResourceService.find(userId).get();
+        if (p == null) {
+            throw new IllegalStateException("this user is not belong to this group .. ");
+        }
+
+        boolean ok = false;
+        for (int i = 0; i < p.getPersonGroups().size(); i++) {
+            if(p.getPersonGroups().get(i).getGroup().getId().equals(groupId)){
+                ok = true;
+                break;
+            }
+        }
+        if (!ok) {
+            throw new IllegalStateException("this user is not belong to this group .. ");
+        }
+
+
+
         fileGroupService.removeFileFromGroup(fileId, groupId);
     }
 
