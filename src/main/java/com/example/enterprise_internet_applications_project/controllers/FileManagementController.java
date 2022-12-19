@@ -86,7 +86,7 @@ public class FileManagementController {
         for (int i = 0; i < p.getPersonGroups().size(); i++) {
             ok = p.getPersonGroups().get(i).getGroup().getId().equals(groupId);
         }
-        if (ok) {
+        if (!ok) {
             throw new IllegalStateException("this user is not belong to this group .. ");
 
         }
