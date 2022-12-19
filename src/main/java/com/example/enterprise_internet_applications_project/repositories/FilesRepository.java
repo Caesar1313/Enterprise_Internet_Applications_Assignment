@@ -24,7 +24,7 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE MyFile AS f SET f.status=?1 f.checkInUserId=?2 WHERE f.name=?3")
+    @Query(value = "UPDATE MyFile AS f SET f.status=?1, f.checkInUserId=?2 WHERE f.name=?3")
     void changeStatusFile(boolean status,Long userId, String nameFile);
 
     @Query(value = "SELECT f.id FROM MyFile AS f WHERE f.name = ?1")
