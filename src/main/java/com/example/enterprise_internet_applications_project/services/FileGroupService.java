@@ -10,7 +10,9 @@ import com.example.enterprise_internet_applications_project.repositories.GroupRe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,15 +42,22 @@ public class FileGroupService {
         fileGroupRepository.save(fileGroup);
     }
 
+    @Modifying
+    @Transactional
     @CacheEvict(cacheNames = "filesInGroup", allEntries = true)
     public void removeFileFromGroup(Long fileId,Long groupId){
-        FileGroup fileGroup = fileGroupRepository.findFileInGroup(fileId, groupId);
-        fileGroupRepository.delete(fileGroup);
+//        FileGroup fileGroup = fileGroupRepository.findFileInGroup(fileId, groupId);
+//        fileGroupRepository.delete(fileGroup);
+        fileGroupRepository.removeFileFromGroup(fileId, groupId);
     }
 
     @Cacheable(cacheNames = "filesInGroup", key = "#groupId")
     public List<String> getFilesInGroup(Long groupId){
         System.out.println("FETCHING FROM DB");
         return fileGroupRepository.getFileNamesInGroup(groupId);
+    }
+
+    public List<FileGroup> getAllFileGroups(){
+        return fileGroupRepository.getAllFileGroups();
     }
 }

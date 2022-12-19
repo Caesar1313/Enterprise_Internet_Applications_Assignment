@@ -1,10 +1,12 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
 
+import com.example.enterprise_internet_applications_project.models.Person;
 import com.example.enterprise_internet_applications_project.security.util.JWTUtil;
 import com.example.enterprise_internet_applications_project.models.jwtModel.JWTRequestModel;
 import com.example.enterprise_internet_applications_project.models.jwtModel.JWTResponseModel;
 import com.example.enterprise_internet_applications_project.services.AuthUserDetailService;
+import com.example.enterprise_internet_applications_project.services.PersonResourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -28,6 +31,9 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private PersonResourceService personResourceService;
 
     @Autowired
     private JWTUtil jwtUtil;
@@ -53,7 +59,8 @@ public class AuthController {
                     .loadUserByUsername(jwtRequestModel.getUsername());
             final String token = jwtUtil.generateToken(userDetails);
 
-            return ResponseEntity.ok(new JWTResponseModel(token));
+            Optional<Person> user = personResourceService.findUserDetails(jwtRequestModel.getUsername());
+            return ResponseEntity.ok(new JWTResponseModel(token, user.get().getId()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

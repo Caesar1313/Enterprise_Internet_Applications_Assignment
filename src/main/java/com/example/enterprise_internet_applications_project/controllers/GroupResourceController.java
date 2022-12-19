@@ -28,7 +28,7 @@ public class GroupResourceController {
 
 
     @GetMapping
-    public List<Group> read(){return groupResourceService.read();}
+    public List<String> read(){return groupResourceService.read();}
 
 
     @GetMapping(path = "{id}")

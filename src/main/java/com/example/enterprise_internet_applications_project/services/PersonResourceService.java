@@ -67,4 +67,8 @@ public class PersonResourceService {
     public void delete(Long id) {
         personRepository.deleteById(id);
     }
+
+    public List<String> getAllUsers() {
+        return personRepository.getAllUsers();
+    }
 }

@@ -33,6 +33,11 @@ public class PersonResourceController {
         return personResourceService.read();
     }
 
+    @GetMapping("/all/users")
+    public List<String> getAllUsers(){
+        return personResourceService.getAllUsers();
+    }
+
 
     @GetMapping(path = "{id}")
     public Optional<Person> find(@RequestParam long id) {

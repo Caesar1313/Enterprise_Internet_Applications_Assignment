@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface FilesRepository extends JpaRepository<MyFile, Long> {
 
@@ -48,5 +51,7 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
     @Query(value = "SELECT f.pinding FROM MyFile f WHERE f.name = ?1")
     boolean isPinding( String nameFile);
 
+    @Query("SELECT f.name FROM MyFile as f")
+    List<String> getAllFiles();
 
 }

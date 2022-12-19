@@ -62,8 +62,8 @@ public class FilesService {
         return filesRepository.isPinding(nameFile);
     }
 
-    public List<MyFile> getFiles() {
-        return filesRepository.findAll();
+    public List<String> getFiles() {
+        return filesRepository.getAllFiles();
     }
 
     public ResponseEntity<?> deleteFileByName(String nameFile) {
@@ -85,4 +85,8 @@ public class FilesService {
     }
 
     public Long ownerIdFile(String nameFile){return filesRepository.ownerIdFile(nameFile);}
+
+    public MyFile findFileById(Long fileId){
+        return filesRepository.findById(fileId).get();
+    }
 }

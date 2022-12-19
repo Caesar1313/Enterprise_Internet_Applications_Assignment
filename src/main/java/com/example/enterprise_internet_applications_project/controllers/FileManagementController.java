@@ -1,8 +1,10 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
+import com.example.enterprise_internet_applications_project.models.FileGroup;
 import com.example.enterprise_internet_applications_project.models.MyFile;
 import com.example.enterprise_internet_applications_project.services.FileGroupService;
 import com.example.enterprise_internet_applications_project.services.FilesService;
+import com.example.enterprise_internet_applications_project.services.GroupResourceService;
 import com.example.enterprise_internet_applications_project.utils.download.FileDownloadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -24,15 +26,17 @@ import java.util.Map;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class FileManagementController {
 
-
-    private final FilesService storageService;
-    private final FileGroupService fileGroupService;
+    @Autowired
+    private FilesService storageService;
 
     @Autowired
-    public FileManagementController(FilesService storageService, FileGroupService fileGroupService) {
-        this.storageService = storageService;
-        this.fileGroupService = fileGroupService;
-    }
+    private FileGroupService fileGroupService;
+
+    @Autowired
+    private FilesService filesService;
+
+    @Autowired
+    private GroupResourceService groupResourceService;
 
     @PostMapping("/uploadFile/owner/{id}")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("id") long ownerId) {
@@ -72,6 +76,12 @@ public class FileManagementController {
 
     @PostMapping("/group")
     public void addFileToGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId) {
+        FileGroup fg = new FileGroup(filesService.findFileById(fileId), groupResourceService.findGroupById(groupId));
+        for (FileGroup fileGroup : fileGroupService.getAllFileGroups()) {
+            if (fileGroup.equals(fg)) {
+                return;
+            }
+        }
         fileGroupService.addFileToGroup(fileId, groupId);
     }
 
@@ -81,7 +91,7 @@ public class FileManagementController {
     }
 
     @GetMapping("/allFiles")
-    public List<MyFile> getFiles() {
+    public List<String> getFiles() {
         return storageService.getFiles();
     }
 

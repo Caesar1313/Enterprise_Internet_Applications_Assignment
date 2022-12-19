@@ -24,9 +24,11 @@ public class GroupResourceService {
     }
 
 
-    public List<Group> read(){return groupRepository.findAll();}
+    public List<String> read(){return groupRepository.getGroups();}
 
-
+    public Group findGroupById(Long groupId){
+        return groupRepository.findById(groupId).get();
+    }
 
     public Optional<Group> find(Long id){return groupRepository.findById(id);}
 

@@ -18,6 +18,13 @@ public class FileGroup {
     @JoinColumn(name = "file_id",nullable = false,referencedColumnName = "id")
     private MyFile file;
 
+    public FileGroup(MyFile file, Group group) {
+        this.group = group;
+        this.file = file;
+    }
+
+    public FileGroup() {}
+
     public Group getGroup() {
         return group;
     }
@@ -41,5 +48,14 @@ public class FileGroup {
                 ", group=" + group +
                 ", file=" + file +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof FileGroup){
+            return this.file.getId() == ((FileGroup) obj).file.getId()
+                    && this.group.getId().equals(((FileGroup) obj).group.getId());
+        }
+        return super.equals(obj);
     }
 }

@@ -14,4 +14,7 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Optional<Person> findByName(String name);
+
+    @Query("SELECT p.name FROM Person as p")
+    List<String> getAllUsers();
 }
