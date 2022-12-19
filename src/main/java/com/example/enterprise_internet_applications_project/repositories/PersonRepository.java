@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -19,9 +18,9 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Optional<Person> findByGroupId(@Param("groupId") Long groupId);
 
 
-    @Query("SELECT g.id FROM Group g JOIN g.personGroups pg" +
+    @Query("SELECT g.id FROM Group g JOIN g.personGroups pg " +
             "JOIN pg.person p " +
-            "WHERE g.id = pg.group.id" +
+            "WHERE g.id = pg.group.id " +
             "AND pg.person.id =:userId")
     Long findGroupIdByUserId(@Param("userId")Long userId);
 }
