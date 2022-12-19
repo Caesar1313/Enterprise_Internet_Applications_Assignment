@@ -38,6 +38,9 @@ public class PersonResourceService {
     }
 
 
+    public Optional<Person> findByGroupId(Long groupId){
+        return personRepository.findByGroupId(groupId);
+    }
     public Optional<Person> findUserDetails(String useName) {
         return personRepository.findByName(useName);
     }
@@ -49,6 +52,10 @@ public class PersonResourceService {
 
     public Optional<Person> find(Long id) {
         return personRepository.findById(id);
+    }
+
+    public Long findGroupIdByUserId(Long userId){
+        return personRepository.findGroupIdByUserId(userId);
     }
 
 

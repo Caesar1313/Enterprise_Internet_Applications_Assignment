@@ -32,6 +32,26 @@ public class Group {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<PersonGroup> getPersonGroups() {
+        return personGroups;
+    }
+
+    public void setPersonGroups(List<PersonGroup> personGroups) {
+        this.personGroups = personGroups;
+    }
+
+    public List<FileGroup> getFileGroups() {
+        return fileGroups;
+    }
+
+    public void setFileGroups(List<FileGroup> fileGroups) {
+        this.fileGroups = fileGroups;
+    }
+
     public Group(String name) {
         this.name = name;
     }
