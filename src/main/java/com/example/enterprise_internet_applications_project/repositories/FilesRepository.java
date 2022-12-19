@@ -53,8 +53,8 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
     @Query("SELECT g.id FROM Group g JOIN " +
             "g.fileGroups fg " +
             "JOIN fg.file f " +
-            "WHERE g.id = fg.group.id" +
-            "WHERE fg.file.id =:fileId")
+            "WHERE g.id = fg.group.id " +
+            "AND fg.file.id =:fileId")
     Long findGroupIdByFileId(@Param("fileId")Long fileId);
 
 
