@@ -21,6 +21,8 @@ public class MyFile {
     private boolean status;
     private boolean pinding;
 
+    private Long checkInUserId;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false, referencedColumnName = "id")
     @JsonIgnoreProperties(value = "files", allowSetters = true)
@@ -40,6 +42,30 @@ public class MyFile {
         this.name = name;
         this.status = status;
         this.pinding = pinding;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public List<FileGroup> getFileGroups() {
+        return fileGroups;
+    }
+
+    public void setFileGroups(List<FileGroup> fileGroups) {
+        this.fileGroups = fileGroups;
+    }
+
+    public Long getCheckInUserId() {
+        return checkInUserId;
+    }
+
+    public void setCheckInUserId(Long checkInUserId) {
+        this.checkInUserId = checkInUserId;
+    }
+
+    public Person getOwner() {
+        return owner;
     }
 
     public boolean isPinding() {

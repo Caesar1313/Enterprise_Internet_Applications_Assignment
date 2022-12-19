@@ -20,12 +20,10 @@ import java.util.UUID;
 @RestController
 public class ProxyController {
     Logger logger = LoggerFactory.getLogger(ProxyController.class);
-
-
     @Autowired
     ProxyService service;
 
-    @RequestMapping("/test")
+    @RequestMapping("/**")
     public ResponseEntity<String> sendRequestToSPM(@RequestBody(required = false) String body,
                                                    HttpMethod method, HttpServletRequest request, HttpServletResponse response)
             throws URISyntaxException {

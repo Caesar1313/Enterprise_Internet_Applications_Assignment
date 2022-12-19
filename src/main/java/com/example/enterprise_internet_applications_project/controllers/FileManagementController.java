@@ -1,8 +1,10 @@
 package com.example.enterprise_internet_applications_project.controllers;
 
 import com.example.enterprise_internet_applications_project.models.MyFile;
+import com.example.enterprise_internet_applications_project.models.Person;
 import com.example.enterprise_internet_applications_project.services.FileGroupService;
 import com.example.enterprise_internet_applications_project.services.FilesService;
+import com.example.enterprise_internet_applications_project.services.PersonResourceService;
 import com.example.enterprise_internet_applications_project.utils.download.FileDownloadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -28,10 +30,13 @@ public class FileManagementController {
     private final FilesService storageService;
     private final FileGroupService fileGroupService;
 
+    private final PersonResourceService personResourceService;
+
     @Autowired
-    public FileManagementController(FilesService storageService, FileGroupService fileGroupService) {
+    public FileManagementController(FilesService storageService, FileGroupService fileGroupService, PersonResourceService personResourceService) {
         this.storageService = storageService;
         this.fileGroupService = fileGroupService;
+        this.personResourceService = personResourceService;
     }
 
     @PostMapping("/uploadFile/owner/{id}")
@@ -71,8 +76,22 @@ public class FileManagementController {
     }
 
     @PostMapping("/group")
-    public void addFileToGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId) {
+    public void addFileToGroup(@RequestParam("file_id") Long fileId, @RequestParam("group_id") Long groupId, @RequestParam("userId") Long userId) {
+        Person p = personResourceService.find(userId).get();
+        if (p == null) {
+            throw new IllegalStateException("this user is not belong to this group .. ");
+        }
+
+        boolean ok = false;
+        for (int i = 0; i < p.getPersonGroups().size(); i++) {
+            ok = p.getPersonGroups().get(i).getGroup().getId().equals(groupId);
+        }
+        if (ok) {
+            throw new IllegalStateException("this user is not belong to this group .. ");
+
+        }
         fileGroupService.addFileToGroup(fileId, groupId);
+
     }
 
     @DeleteMapping("/group")
@@ -91,10 +110,10 @@ public class FileManagementController {
     }
 
     @GetMapping("/getStatusFile")
-    public String statusFile(@RequestParam("nameFile") String nameFile){
-        try{
+    public String statusFile(@RequestParam("nameFile") String nameFile) {
+        try {
             return nameFile + " : " + isCheckIn(nameFile);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalStateException("file not found");
         }
     }
@@ -109,9 +128,9 @@ public class FileManagementController {
     }
 
     @GetMapping("/changeStatusFile")
-    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status) throws Exception {
+    public void changeStatusFile(@RequestParam("nameFile") String nameFile, boolean status, Long userId) throws Exception {
         try {
-            storageService.changeStatusFile(status, nameFile);
+            storageService.changeStatusFile(status, nameFile, userId);
         } catch (Exception e) {
             throw new Exception("not find this file : " + nameFile);
         }
@@ -197,7 +216,7 @@ public class FileManagementController {
             if (isCheckIn(nameFile)) {
                 throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
             }
-            changeStatusFile(nameFile, true);
+            changeStatusFile(nameFile, true, 0L);
             downloadFile(id);
         } catch (Exception e) {
             throw new Exception("not find file : " + nameFile);
@@ -205,14 +224,23 @@ public class FileManagementController {
     }
 
     @GetMapping("/check-in")
-    public ResponseEntity<?> checkInFile(@RequestParam("nameFile") String nameFile) throws Exception {
+    public ResponseEntity<?> checkInFile(@RequestParam("nameFile") String nameFile, @RequestParam("userId") Long userId) throws Exception {
         Long id;
         try {
             id = getIdFile(nameFile);
             if (isCheckIn(nameFile) || isPinding(nameFile)) {
                 throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
             }
-            changeStatusFile(nameFile, true);
+
+
+            Long pGId = personResourceService.findGroupIdByUserId(userId);
+            Long fGId = storageService.findGroupIdByFileId(id);
+
+            if (!pGId.equals(fGId)) {
+                throw new IllegalStateException("You Can't make check in for this file beacuase another user make check in before");
+            }
+
+            changeStatusFile(nameFile, true, userId);
             return downloadFile(id);
         } catch (Exception e) {
             throw new Exception("not find file : " + nameFile);
@@ -225,30 +253,35 @@ public class FileManagementController {
     }
 
     @PutMapping("/check-out")
-    public void checkOutFile(@RequestParam("file") MultipartFile file) {
+    public void checkOutFile(@RequestParam("file") MultipartFile file, @RequestParam("userId") Long userId) {
         Long ownerId = ownerIdFile(file.getOriginalFilename());
-        if (findByName(file.getOriginalFilename()) == null) {
+        MyFile myFile = findByName(file.getOriginalFilename());
+        if (myFile == null) {
             uploadFile(file, ownerId);
         }
+
+        if (!myFile.getCheckInUserId().equals(userId)) {
+            throw new IllegalStateException("can not check out using different user id");
+        }
         try {
-            changeStatusFile(file.getOriginalFilename(), false);
+            changeStatusFile(file.getOriginalFilename(), false, 0L);
         } catch (Exception e) {
             throw new IllegalStateException("\"can't change status file to check out\"");
         }
     }
 
     @GetMapping("/readFile")
-    public void readFile(String nameFile){
-        try{
+    public void readFile(String nameFile) {
+        try {
             Long idFile = getIdFile(nameFile);
             downloadFile(idFile);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalStateException("can't get id file");
         }
     }
 
     @GetMapping("/files/in/group/{group_id}")
-    public List<String> getFilesInGroup(@PathVariable("group_id") Long groupId){
+    public List<String> getFilesInGroup(@PathVariable("group_id") Long groupId) {
         return fileGroupService.getFilesInGroup(groupId);
     }
 }

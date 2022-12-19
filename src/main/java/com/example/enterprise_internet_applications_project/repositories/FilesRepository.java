@@ -4,6 +4,8 @@ import com.example.enterprise_internet_applications_project.models.MyFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +24,8 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "UPDATE MyFile AS f SET f.status=?1 WHERE f.name=?2")
-    void changeStatusFile(boolean status, String nameFile);
+    @Query(value = "UPDATE MyFile AS f SET f.status=?1 f.checkInUserId=?2 WHERE f.name=?3")
+    void changeStatusFile(boolean status,Long userId, String nameFile);
 
     @Query(value = "SELECT f.id FROM MyFile AS f WHERE f.name = ?1")
     Long getIdFile(String nameFile);
@@ -47,6 +49,13 @@ public interface FilesRepository extends JpaRepository<MyFile, Long> {
 
     @Query(value = "SELECT f.pinding FROM MyFile f WHERE f.name = ?1")
     boolean isPinding( String nameFile);
+
+    @Query("SELECT g.id FROM Group g JOIN " +
+            "g.fileGroups fg " +
+            "JOIN fg.file f " +
+            "WHERE g.id = fg.group.id" +
+            "WHERE fg.file.id =:fileId")
+    Long findGroupIdByFileId(@Param("fileId")Long fileId);
 
 
 }

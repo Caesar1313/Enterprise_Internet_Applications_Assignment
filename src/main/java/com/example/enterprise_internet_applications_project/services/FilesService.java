@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import com.example.enterprise_internet_applications_project.models.MyFile;
+import com.example.enterprise_internet_applications_project.models.Person;
 import com.example.enterprise_internet_applications_project.repositories.FilesRepository;
+import com.example.enterprise_internet_applications_project.repositories.PersonGroupRepository;
 import com.example.enterprise_internet_applications_project.repositories.PersonRepository;
 import com.example.enterprise_internet_applications_project.utils.upload.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class FilesService {
 
     @Autowired
     private PersonRepository personRepository;
+
+
 
     public void upload(MultipartFile file, long ownerId) throws IOException {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -47,8 +51,8 @@ public class FilesService {
         return filesRepository.findById(id).get();
     }
 
-    public void changeStatusFile(boolean status, String nameFile) {
-        filesRepository.changeStatusFile(status, nameFile);
+    public void changeStatusFile(boolean status, String nameFile,Long userId) {
+        filesRepository.changeStatusFile(status,userId, nameFile);
     }
 
     public MyFile getFile(Long id) {
@@ -85,4 +89,8 @@ public class FilesService {
     }
 
     public Long ownerIdFile(String nameFile){return filesRepository.ownerIdFile(nameFile);}
+
+    public Long findGroupIdByFileId(Long fileId){
+        return filesRepository.findGroupIdByFileId(fileId);
+    }
 }
